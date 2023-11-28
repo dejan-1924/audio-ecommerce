@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace audio_ecommerce.Models
 {
-    public class Artist
+    public class Artist : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -13,7 +13,11 @@ namespace audio_ecommerce.Models
 
         public ICollection<Product> Products { get; set; } = new List<Product>();
 
-
+        public DateTime CreatedDate { get; set; }
+        [Required]
+        public DateTime ModifiedDate { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
 
     }
 }

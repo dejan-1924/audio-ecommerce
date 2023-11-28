@@ -1,4 +1,7 @@
-﻿namespace audio_ecommerce.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace audio_ecommerce.Models
 {
     public class User : IEntity
     {
