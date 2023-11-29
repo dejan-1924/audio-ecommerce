@@ -1,5 +1,7 @@
-﻿using audio_ecommerce.Models.DTOs.Product;
+﻿using audio_ecommerce.Models;
+using audio_ecommerce.Models.DTOs.Product;
 using audio_ecommerce.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace audio_ecommerce.Controllers
@@ -16,6 +18,7 @@ namespace audio_ecommerce.Controllers
         }
 
         [HttpPost(Name = "GetAllProducts")]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<ProductPreviewDTO>> GetAll([FromBody] ProductFilterQuery query)
         {
             var products = _productService.GetAll(query);
@@ -23,6 +26,23 @@ namespace audio_ecommerce.Controllers
             return Ok(products);
         }
 
+        [HttpGet("{id}", Name = "GetProduct")]
+        [AllowAnonymous]
+        public ActionResult<Product> GetProductById(int id)
+        {
+            var product = _productService.GetProductById(id);
+
+            return Ok(product);
+        }
+
+
+        [HttpDelete("{id}", Name = "DeleteProduct")]
+        [Authorize(Roles = "ADMIN")]
+        public ActionResult Delete(int id)
+        {
+            _productService.Delete(id);
+            return Ok();
+        }
 
     }
 }

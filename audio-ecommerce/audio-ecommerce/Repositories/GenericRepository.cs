@@ -30,6 +30,7 @@ namespace audio_ecommerce.Repositories
             entity.ModifiedDate = DateTime.UtcNow;
             entity.IsDeleted = true;
             _dbContext.Set<T>().Update(entity);
+
         }
 
         public T GetById(long id, params Expression<Func<T, object>>[] includes)

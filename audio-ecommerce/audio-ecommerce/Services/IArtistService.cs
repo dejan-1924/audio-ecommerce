@@ -6,7 +6,6 @@ namespace audio_ecommerce.Services
     {
 
         int CreateArtist(string name);
-
         IEnumerable<ArtistDTO> GetAll();
 
 

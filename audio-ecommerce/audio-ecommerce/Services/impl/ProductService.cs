@@ -1,4 +1,5 @@
-﻿using audio_ecommerce.Models.DTOs.Pagination;
+﻿using audio_ecommerce.Models;
+using audio_ecommerce.Models.DTOs.Pagination;
 using audio_ecommerce.Models.DTOs.Product;
 using audio_ecommerce.Repositories;
 using AutoMapper;
@@ -17,10 +18,22 @@ namespace audio_ecommerce.Services.impl
             _mapper = mapper;
 
         }
+
+
+
+        public void Delete(int productId)
+        {
+            Product product = GetProductById(productId);
+            Console.WriteLine(product.Name);
+            _unitOfWork.ProductRepository.Delete(product);
+
+        }
+
+
         public PaginationWrapper<ProductPreviewDTO> GetAll(ProductFilterQuery query)
         {
 
-            var products = _unitOfWork.ProductRepository.GetAll().Include(product => product.Artist).Where(p => p.Name.Contains(query.SearchQuery) || p.Artist.Name.Contains(query.SearchQuery));
+            var products = _unitOfWork.ProductRepository.GetAll().Include(product => product.Artist).Where(p => p.Name.Contains(query.SearchQuery) || p.Artist.Name.Contains(query.SearchQuery)).Where(p => !p.IsDeleted);
 
 
 
@@ -48,7 +61,16 @@ namespace audio_ecommerce.Services.impl
                 Entities = filteredProducts
             };
 
+        }
 
+        public Product GetProductById(int id)
+        {
+            Product? product = _unitOfWork.ProductRepository.GetById(id);
+            if (product == null)
+            {
+                throw new InvalidOperationException("Product with sent ID does not exist!");
+            }
+            return product;
         }
 
     }
