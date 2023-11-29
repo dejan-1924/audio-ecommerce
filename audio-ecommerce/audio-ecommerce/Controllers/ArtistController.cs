@@ -1,5 +1,6 @@
 ﻿using audio_ecommerce.Models.DTOs.Artist;
 using audio_ecommerce.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace audio_ecommerce.Controllers
@@ -26,6 +27,7 @@ namespace audio_ecommerce.Controllers
 
 
         [HttpPost("add", Name = "AddArtist")]
+        [Authorize(Roles = "ADMIN")]
         public ActionResult<int> AddArtist([FromBody] string name)
         {
 

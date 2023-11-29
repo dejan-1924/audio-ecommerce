@@ -23,8 +23,10 @@ namespace audio_ecommerce.SupportClasses.JWT
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
+
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("userId", user.Id.ToString()),
             };
 
             SecurityTokenDescriptor tokenDescriptor = new()
