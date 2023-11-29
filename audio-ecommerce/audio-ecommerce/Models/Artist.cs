@@ -13,11 +13,17 @@ namespace audio_ecommerce.Models
 
         public ICollection<Product> Products { get; set; } = new List<Product>();
 
-        public DateTime CreatedDate { get; set; }
         [Required]
+        public DateTime CreatedDate { get; set; }
+
         public DateTime ModifiedDate { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
 
+        public Artist(string name)
+        {
+            Name = name;
+            IsDeleted = false;
+        }
     }
 }

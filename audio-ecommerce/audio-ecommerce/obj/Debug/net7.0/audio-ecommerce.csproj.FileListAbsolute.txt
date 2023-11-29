@@ -74,3 +74,5 @@ C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-eco
 C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\obj\Debug\net7.0\audio-ecommerce.pdb
 C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\obj\Debug\net7.0\audio-ecommerce.genruntimeconfig.cache
 C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\obj\Debug\net7.0\ref\audio-ecommerce.dll
+C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

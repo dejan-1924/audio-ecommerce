@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace audio_ecommerce.Models
 {
-    public class Order
+    public class Order : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,5 +15,11 @@ namespace audio_ecommerce.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        [Required]
+        public DateTime ModifiedDate { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }

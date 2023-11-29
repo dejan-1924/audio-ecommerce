@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using audio_ecommerce.Data;
 
@@ -11,9 +12,11 @@ using audio_ecommerce.Data;
 namespace audioecommerce.Migrations
 {
     [DbContext(typeof(DB_Context))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20231129112845_DataSeed")]
+    partial class DataSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,11 +58,20 @@ namespace audioecommerce.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsBilling")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsShipping")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -88,6 +100,15 @@ namespace audioecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -100,11 +121,17 @@ namespace audioecommerce.Migrations
                         new
                         {
                             Id = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8785),
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8836),
                             Name = "Alice In Chains"
                         },
                         new
                         {
                             Id = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8857),
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8858),
                             Name = "Nirvana"
                         });
                 });
@@ -116,6 +143,15 @@ namespace audioecommerce.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -133,6 +169,15 @@ namespace audioecommerce.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -154,6 +199,15 @@ namespace audioecommerce.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -204,14 +258,148 @@ namespace audioecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Price")
-                        .HasColumnType("bigint");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ArtistId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 20,
+                            ArtistId = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8879),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8880),
+                            Name = "Dirt",
+                            Price = 30.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 15,
+                            ArtistId = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8886),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8887),
+                            Name = "Jar Of Flies",
+                            Price = 35.0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 20,
+                            ArtistId = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8889),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8890),
+                            Name = "Sap",
+                            Price = 20.0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 10,
+                            ArtistId = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8893),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8894),
+                            Name = "MTV Unplugged",
+                            Price = 40.0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Amount = 20,
+                            ArtistId = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8896),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8897),
+                            Name = "Alice In Chains",
+                            Price = 50.0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Amount = 20,
+                            ArtistId = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8901),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8903),
+                            Name = "Bleach",
+                            Price = 20.0
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Amount = 20,
+                            ArtistId = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8905),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8906),
+                            Name = "Nevermind",
+                            Price = 30.0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Amount = 10,
+                            ArtistId = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8909),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8910),
+                            Name = "In Utero",
+                            Price = 45.0
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Amount = 20,
+                            ArtistId = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8912),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8913),
+                            Name = "Nirvana",
+                            Price = 15.0
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Amount = 20,
+                            ArtistId = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8916),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8917),
+                            Name = "Incesticide",
+                            Price = 20.0
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Amount = 20,
+                            ArtistId = 2,
+                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8919),
+                            Description = "Proba",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8920),
+                            Name = "MTV Unplugged In New York",
+                            Price = 45.0
+                        });
                 });
 
             modelBuilder.Entity("audio_ecommerce.Models.User", b =>

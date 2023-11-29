@@ -22,7 +22,7 @@ namespace audio_ecommerce.Models
         public DateTime ModifiedDate { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
-        public long Price { get; set; }
+        public double Price { get; set; }
         [Required]
         public int Amount { get; set; }
     }

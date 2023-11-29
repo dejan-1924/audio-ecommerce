@@ -86,9 +86,9 @@ namespace audio_ecommerce.Repositories
             }
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChanges()
         {
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
     }
 }
