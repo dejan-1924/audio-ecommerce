@@ -25,5 +25,6 @@ namespace audio_ecommerce.Models
         public double Price { get; set; }
         [Required]
         public int Amount { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

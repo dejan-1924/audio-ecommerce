@@ -118,17 +118,17 @@ namespace audioecommerce.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8785),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5596),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8836),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5646),
                             Name = "Alice In Chains"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8857),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5665),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8858),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5666),
                             Name = "Nirvana"
                         });
                 });
@@ -245,6 +245,10 @@ namespace audioecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -270,11 +274,25 @@ namespace audioecommerce.Migrations
                             Id = 1,
                             Amount = 20,
                             ArtistId = 1,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8879),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5687),
                             Description = "Proba",
+                            ImageUrl = "https://www.revolvermag.com/sites/default/files/styles/original_image__844px_x_473px_/public/media/section-media/dirt_cover.jpg?itok=p8cv17Bi&timestamp=1506099877",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8880),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5688),
                             Name = "Dirt",
+                            Price = 30.0
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Amount = 20,
+                            ArtistId = 1,
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5693),
+                            Description = "Proba",
+                            ImageUrl = "https://m.media-amazon.com/images/I/81EAuKlg2rS.jpg",
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5694),
+                            Name = "Facelift",
                             Price = 30.0
                         },
                         new
@@ -282,10 +300,11 @@ namespace audioecommerce.Migrations
                             Id = 2,
                             Amount = 15,
                             ArtistId = 1,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8886),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5696),
                             Description = "Proba",
+                            ImageUrl = "https://i.ebayimg.com/images/g/97YAAOSw96JgV8VP/s-l1200.webp",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8887),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5697),
                             Name = "Jar Of Flies",
                             Price = 35.0
                         },
@@ -294,10 +313,11 @@ namespace audioecommerce.Migrations
                             Id = 3,
                             Amount = 20,
                             ArtistId = 1,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8889),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5700),
                             Description = "Proba",
+                            ImageUrl = "https://lostposters.com/wp-content/uploads/2022/12/Album-AliceInChainsSapEP.jpg\r\n",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8890),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5701),
                             Name = "Sap",
                             Price = 20.0
                         },
@@ -306,10 +326,11 @@ namespace audioecommerce.Migrations
                             Id = 4,
                             Amount = 10,
                             ArtistId = 1,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8893),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5703),
                             Description = "Proba",
+                            ImageUrl = "https://m.media-amazon.com/images/I/71rt-HQ-uzL._UF1000,1000_QL80_.jpg",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8894),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5704),
                             Name = "MTV Unplugged",
                             Price = 40.0
                         },
@@ -318,10 +339,11 @@ namespace audioecommerce.Migrations
                             Id = 5,
                             Amount = 20,
                             ArtistId = 1,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8896),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5708),
                             Description = "Proba",
+                            ImageUrl = "https://external-preview.redd.it/VWC_u7czD3dOxHqy8JoIpR5453ecP1J5UU6NR6H9fVo.jpg?auto=webp&s=fc23b13ac83473ee1d22794fb16d877ae029755e",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8897),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5709),
                             Name = "Alice In Chains",
                             Price = 50.0
                         },
@@ -330,10 +352,11 @@ namespace audioecommerce.Migrations
                             Id = 6,
                             Amount = 20,
                             ArtistId = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8901),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5712),
                             Description = "Proba",
+                            ImageUrl = "https://static1.squarespace.com/static/565c1ab5e4b05079e4bfa169/565c268fe4b04e8771155c8c/594622b92994cac22764a55b/1688621277686/Nirvana+Bleach+Album+Cover.jpg?format=1500w",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8903),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5712),
                             Name = "Bleach",
                             Price = 20.0
                         },
@@ -342,10 +365,11 @@ namespace audioecommerce.Migrations
                             Id = 7,
                             Amount = 20,
                             ArtistId = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8905),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5715),
                             Description = "Proba",
+                            ImageUrl = "https://images.theconversation.com/files/421858/original/file-20210917-31825-dmecrb.jpg?ixlib=rb-1.1.0&rect=36%2C26%2C3458%2C3468&q=45&auto=format&w=926&fit=clip",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8906),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5716),
                             Name = "Nevermind",
                             Price = 30.0
                         },
@@ -354,10 +378,11 @@ namespace audioecommerce.Migrations
                             Id = 8,
                             Amount = 10,
                             ArtistId = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8909),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5718),
                             Description = "Proba",
+                            ImageUrl = "https://impact89fm.org/wp-content/uploads/2023/04/in-utero.jpg",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8910),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5719),
                             Name = "In Utero",
                             Price = 45.0
                         },
@@ -366,10 +391,11 @@ namespace audioecommerce.Migrations
                             Id = 9,
                             Amount = 20,
                             ArtistId = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8912),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5722),
                             Description = "Proba",
+                            ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Nirvana_album_cover.svg/1200px-Nirvana_album_cover.svg.png",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8913),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5723),
                             Name = "Nirvana",
                             Price = 15.0
                         },
@@ -378,10 +404,11 @@ namespace audioecommerce.Migrations
                             Id = 10,
                             Amount = 20,
                             ArtistId = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8916),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5725),
                             Description = "Proba",
+                            ImageUrl = "https://media.pitchfork.com/photos/5b3244c8f96f675aaf0b6f69/master/pass/Nirvana%20-%20Incesticide.jpg",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8917),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5726),
                             Name = "Incesticide",
                             Price = 20.0
                         },
@@ -390,10 +417,11 @@ namespace audioecommerce.Migrations
                             Id = 11,
                             Amount = 20,
                             ArtistId = 2,
-                            CreatedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8919),
+                            CreatedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5728),
                             Description = "Proba",
+                            ImageUrl = "https://i.discogs.com/4xa_lkoBOHO_GtskzDYK7y-DloQ01VbEhOVfsRyKZWA/rs:fit/g:sm/q:90/h:545/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2ODg0/MDktMTM5OTk3NzA0/MC05NDc1LmpwZWc.jpeg",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 11, 29, 12, 28, 44, 956, DateTimeKind.Local).AddTicks(8920),
+                            ModifiedDate = new DateTime(2023, 11, 29, 18, 36, 48, 40, DateTimeKind.Local).AddTicks(5729),
                             Name = "MTV Unplugged In New York",
                             Price = 45.0
                         });

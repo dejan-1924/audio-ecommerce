@@ -77,3 +77,4 @@ C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-eco
 C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\bin\Debug\net7.0\AutoMapper.dll
 C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Dejan\Desktop\audio-ecommerce\audio-ecommerce\audio-ecommerce\audio-ecommerce\bin\Debug\net7.0\System.Web.Cors.dll
