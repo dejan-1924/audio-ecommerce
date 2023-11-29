@@ -2,6 +2,7 @@ using audio_ecommerce.Data;
 using audio_ecommerce.Repositories;
 using audio_ecommerce.Services;
 using audio_ecommerce.Services.impl;
+using audio_ecommerce.SupportClasses.JWT;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -20,8 +21,10 @@ builder.Services.AddDbContext<DB_Context>(x => x.UseSqlServer(builder.Configurat
 builder.Services.AddScoped<DbContext, DB_Context>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
 builder.Services.AddControllersWithViews()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 var app = builder.Build();
