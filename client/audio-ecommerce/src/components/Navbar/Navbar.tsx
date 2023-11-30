@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import classes from "./styles/Navbar.module.css";
 import { Link } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -6,13 +6,14 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Badge } from "@mui/material";
+import { Badge, autocompleteClasses } from "@mui/material";
 import SideMenu from "../SideMenu/SideMenu";
 import Backdrop from "../SideMenu/Backdrop";
+import { AuthContext } from "../../store/auth-store";
 
 const Navbar = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-
+  const authCtx = useContext(AuthContext);
   const handleOpenSideMenu = () => {
     setIsSideMenuOpen(true);
   };
@@ -37,9 +38,15 @@ const Navbar = () => {
         </div>
 
         <div className={classes.navbar__actions}>
-          <Link to="/login" className={classes.navbar__item}>
-            <PersonOutlineIcon></PersonOutlineIcon>
-          </Link>
+          {!authCtx?.isLoggedIn ? (
+            <Link to="/login" className={classes.navbar__item}>
+              <PersonOutlineIcon></PersonOutlineIcon>
+            </Link>
+          ) : (
+            <Link to="/profile" className={classes.navbar__item}>
+              <PersonOutlineIcon></PersonOutlineIcon>
+            </Link>
+          )}
           <Link to="/wishlist" className={classes.navbar__item}>
             <FavoriteBorderIcon></FavoriteBorderIcon>
           </Link>

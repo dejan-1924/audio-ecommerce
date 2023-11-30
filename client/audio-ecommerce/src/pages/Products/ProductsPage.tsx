@@ -15,7 +15,7 @@ const ordering_options = [
   { label: "Price, high to low", value: "PRICE_DESC" },
   { label: "Alphabetically", value: "AZ" },
 ];
-
+const itemNumber = 10;
 const ProductsPage = () => {
   const {
     handleGetPage,
@@ -34,7 +34,7 @@ const ProductsPage = () => {
     handleGetSearchQuery(),
     handleGetOrdering(),
     handleGetSelectedArtists(),
-    10
+    itemNumber
   );
   const [toggleFilters, setToggleFilters] = useState(false);
   const [toggleOrdering, setToggleOrdering] = useState(false);
@@ -85,7 +85,10 @@ const ProductsPage = () => {
                         {ordering_options.map((option) => {
                           return (
                             <li
-                              onClick={() => handleSetOrdering(option.value)}
+                              onClick={() => {
+                                handleSetOrdering(option.value);
+                                setToggleOrdering(false);
+                              }}
                               className={
                                 option.value === handleGetOrdering()
                                   ? classes.ordering__selected
