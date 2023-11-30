@@ -2,10 +2,10 @@
 {
     public class ProductFilterQuery
     {
-        public bool IsOrderAscending { get; set; }
         public string SearchQuery { get; set; }
-        public int ArtistId { get; set; }
+        public ICollection<int> ArtistIds { get; set; }
         public int PageSize { get; set; }
         public int Page { get; set; }
+        public string Ordering { get; set; }
     }
 }

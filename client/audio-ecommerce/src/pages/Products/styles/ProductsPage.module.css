@@ -57,12 +57,43 @@
   padding: 0.2rem 0.8rem;
 }
 
+.orderbuttons_container {
+  position: relative;
+}
+
 .orderbutton {
   background-color: rgb(230, 228, 228);
   color: rgb(51, 51, 51);
   border: none;
   border-radius: 0.3rem;
   padding: 0.2rem 0.8rem;
+}
+
+.ordering {
+  position: absolute;
+  background-color: white;
+  top: 2.2rem;
+}
+
+.ordering ul {
+  list-style-type: none;
+}
+.ordering ul li {
+  padding: 0.5rem;
+  min-width: 150px;
+  font-size: 0.9rem;
+  border-top: 1px solid rgb(225, 223, 223);
+  border-left: 1px solid rgb(225, 223, 223);
+}
+
+.ordering ul li:hover {
+  background-color: rgb(50, 95, 199);
+  color: white;
+}
+
+.ordering__selected {
+  background-color: rgb(50, 95, 199);
+  color: white;
 }
 
 @media screen and (min-width: 500px) {

@@ -4,19 +4,19 @@ import axios from "axios";
 export const useGetProductsBySearchQuery = (
   page: number,
   searchQuery: string,
-  isOrderAscending: boolean,
-  artistId: number,
+  ordering: string,
+  artistIds: number,
   pageSize: number
 ) =>
   useQuery({
-    queryKey: ["products", page, searchQuery],
+    queryKey: ["products", page, searchQuery, artistIds, ordering],
     queryFn: () =>
       axios
         .post(`http://localhost:5100/api/Product`, {
           searchQuery,
           page,
-          isOrderAscending,
-          artistId,
+          ordering,
+          artistIds,
           pageSize,
         })
         .then((res) => {

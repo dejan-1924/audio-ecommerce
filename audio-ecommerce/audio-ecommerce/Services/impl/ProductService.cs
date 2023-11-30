@@ -37,22 +37,30 @@ namespace audio_ecommerce.Services.impl
 
 
 
-            if (query.ArtistId != 0)
+            if (query.ArtistIds != null && query.ArtistIds.Any())
             {
-                products = products.Where(p => p.ArtistId == query.ArtistId);
+                products = products.Where(p => query.ArtistIds.Contains(p.ArtistId));
             }
 
             var count = products.Count();
 
             List<ProductPreviewDTO> filteredProducts = new List<ProductPreviewDTO>();
 
-            if (query.IsOrderAscending)
+            if (query.Ordering == "PRICE_ASC")
+            {
+                filteredProducts = _mapper.Map<List<ProductPreviewDTO>>(products.OrderBy(t => t.Price).Skip((query.Page - 1) * query.PageSize).Take(query.PageSize));
+            }
+            else if (query.Ordering == "PRICE_DESC")
+            {
+                filteredProducts = _mapper.Map<List<ProductPreviewDTO>>(products.OrderByDescending(t => t.Price).Skip((query.Page - 1) * query.PageSize).Take(query.PageSize));
+            }
+            else if (query.Ordering == "AZ")
             {
                 filteredProducts = _mapper.Map<List<ProductPreviewDTO>>(products.OrderBy(t => t.Name).Skip((query.Page - 1) * query.PageSize).Take(query.PageSize));
             }
             else
             {
-                filteredProducts = _mapper.Map<List<ProductPreviewDTO>>(products.OrderByDescending(t => t.Name).Skip((query.Page - 1) * query.PageSize).Take(query.PageSize));
+                filteredProducts = _mapper.Map<List<ProductPreviewDTO>>(products.OrderByDescending(t => t.CreatedDate).Skip((query.Page - 1) * query.PageSize).Take(query.PageSize));
             }
 
             return new PaginationWrapper<ProductPreviewDTO>

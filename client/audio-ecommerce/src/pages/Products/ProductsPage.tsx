@@ -9,9 +9,22 @@ import ImportExportIcon from "@mui/icons-material/ImportExport";
 import FiltersModal from "../../components/Filters/FiltersModal";
 import Backdrop from "../../components/SideMenu/Backdrop";
 
+const ordering_options = [
+  { label: "Relevance", value: "REL" },
+  { label: "Price, low to high", value: "PRICE_ASC" },
+  { label: "Price, high to low", value: "PRICE_DESC" },
+  { label: "Alphabetically", value: "AZ" },
+];
+
 const ProductsPage = () => {
-  const { handleGetPage, handleSetPage, handleGetSearchQuery } =
-    useContext(ShopContext);
+  const {
+    handleGetPage,
+    handleSetPage,
+    handleGetSearchQuery,
+    handleGetSelectedArtists,
+    handleGetOrdering,
+    handleSetOrdering,
+  } = useContext(ShopContext);
   const {
     data: products,
     isLoading,
@@ -19,18 +32,22 @@ const ProductsPage = () => {
   } = useGetProductsBySearchQuery(
     handleGetPage(),
     handleGetSearchQuery(),
-    true,
-    0,
-    6
+    handleGetOrdering(),
+    handleGetSelectedArtists(),
+    10
   );
   const [toggleFilters, setToggleFilters] = useState(false);
-
+  const [toggleOrdering, setToggleOrdering] = useState(false);
   const handleOpenFilterModal = () => {
     setToggleFilters(true);
   };
 
   const closeFilterModal = () => {
     setToggleFilters(false);
+  };
+
+  const handleToggleOrdering = () => {
+    setToggleOrdering(!toggleOrdering);
   };
 
   return (
@@ -56,9 +73,32 @@ const ProductsPage = () => {
               <div></div>
               <div className={classes.filters__container}>
                 <div className={classes.orderbuttons_container}>
-                  <button className={classes.orderbutton}>
+                  <button
+                    className={classes.orderbutton}
+                    onClick={handleToggleOrdering}
+                  >
                     <ImportExportIcon></ImportExportIcon>
                   </button>
+                  {toggleOrdering && (
+                    <div className={classes.ordering}>
+                      <ul>
+                        {ordering_options.map((option) => {
+                          return (
+                            <li
+                              onClick={() => handleSetOrdering(option.value)}
+                              className={
+                                option.value === handleGetOrdering()
+                                  ? classes.ordering__selected
+                                  : ""
+                              }
+                            >
+                              {option.label}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <button
                   className={classes.filterbutton}
