@@ -1,5 +1,4 @@
-﻿using audio_ecommerce.Models;
-using audio_ecommerce.Models.DTOs.Product;
+﻿using audio_ecommerce.Models.DTOs.Product;
 using audio_ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ namespace audio_ecommerce.Controllers
 
         [HttpGet("{id}", Name = "GetProduct")]
         [AllowAnonymous]
-        public ActionResult<Product> GetProductById(int id)
+        public ActionResult<ProductDTO> GetProductById(int id)
         {
             var product = _productService.GetProductById(id);
 

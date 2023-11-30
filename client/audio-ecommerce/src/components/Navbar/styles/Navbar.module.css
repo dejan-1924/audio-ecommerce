@@ -93,3 +93,17 @@
 .searchbar {
   border-top: 1px solid rgb(126, 126, 126);
 }
+
+@media only screen and (min-width: 1000px) {
+  .navbar {
+    margin: auto;
+    width: 60%;
+    min-width: 800px;
+  }
+  .searchbar {
+    display: none;
+    margin: auto;
+    width: 60%;
+    min-width: 800px;
+  }
+}

@@ -28,7 +28,7 @@ export const useGetProductByIdQuery = (productId: string) =>
   useQuery({
     queryKey: ["products", productId],
     queryFn: () =>
-      fetch(`http://localhost:3001/api/Product/${productId}`).then((res) =>
+      fetch(`http://localhost:5100/api/Product/${productId}`).then((res) =>
         res.json()
       ),
   });

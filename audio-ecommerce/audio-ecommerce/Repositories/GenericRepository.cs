@@ -33,7 +33,7 @@ namespace audio_ecommerce.Repositories
 
         }
 
-        public T GetById(long id, params Expression<Func<T, object>>[] includes)
+        public T GetById(int id, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> entities = _dbContext.Set<T>();
             if (includes != null)

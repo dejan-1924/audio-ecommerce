@@ -23,7 +23,11 @@ namespace audio_ecommerce.Services.impl
 
         public void Delete(int productId)
         {
-            Product product = GetProductById(productId);
+            Product? product = _unitOfWork.ProductRepository.GetById(productId);
+            if (product == null)
+            {
+                throw new InvalidOperationException("Product with sent ID does not exist!");
+            }
             Console.WriteLine(product.Name);
             _unitOfWork.ProductRepository.Delete(product);
 
@@ -71,14 +75,14 @@ namespace audio_ecommerce.Services.impl
 
         }
 
-        public Product GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
-            Product? product = _unitOfWork.ProductRepository.GetById(id);
+            Product? product = _unitOfWork.ProductRepository.GetById(id, p => p.Artist);
             if (product == null)
             {
                 throw new InvalidOperationException("Product with sent ID does not exist!");
             }
-            return product;
+            return _mapper.Map<ProductDTO>(product);
         }
 
     }
