@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import classes from "./styles/Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -10,17 +10,56 @@ import { Badge, autocompleteClasses } from "@mui/material";
 import SideMenu from "../SideMenu/SideMenu";
 import Backdrop from "../SideMenu/Backdrop";
 import { AuthContext } from "../../store/auth-store";
+import { ShopContext } from "../../store/shop-store";
 
 const Navbar = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const authCtx = useContext(AuthContext);
+  const {
+    resetFilters,
+    handleSetSearchQuery,
+    handleResetPage,
+    handleGetSearchQuery,
+  } = useContext(ShopContext);
+  const { toggleSearch, setToggleSearch } = useState(false);
+  const queryRef = useRef();
+
   const handleOpenSideMenu = () => {
     setIsSideMenuOpen(true);
   };
-
+  const navigate = useNavigate();
   const closeSideMenuHandler = () => {
     setIsSideMenuOpen(false);
   };
+  const location = useLocation();
+  const handleViewRecords = () => {
+    if (location.pathname != "/shop") {
+      resetFilters();
+    }
+    navigate("/shop");
+  };
+
+  const handleToggleSearch = () => {
+    setToggleSearch(!toggleSearch);
+  };
+
+  const handleSearch = () => {
+    if (queryRef.current.value == "") {
+      return;
+    }
+    handleSetSearchQuery(queryRef.current.value);
+    handleResetPage();
+    queryRef.current.value = "";
+    navigate("/shop");
+  };
+
+  useEffect(() => {
+    if (isSideMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isSideMenuOpen]);
 
   return (
     <div className={classes.navbarContainer}>
@@ -36,8 +75,22 @@ const Navbar = () => {
             <MenuIcon></MenuIcon>
           </div>
         </div>
-
+        <div className={classes.navbar__left_FS}>
+          <div onClick={handleViewRecords} className={classes.navbar__item}>
+            Records
+          </div>
+          <div className={classes.navbar__item}>Clothing</div>
+        </div>
         <div className={classes.navbar__actions}>
+          <div className={classes.navbar__item}>
+            <div
+              className={classes.navbar__search}
+              onClick={handleToggleSearch}
+            >
+              <input ref={queryRef} placeholder="Search"></input>
+              <SearchIcon onClick={handleSearch}></SearchIcon>
+            </div>
+          </div>
           {!authCtx?.isLoggedIn ? (
             <Link to="/login" className={classes.navbar__item}>
               <PersonOutlineIcon></PersonOutlineIcon>

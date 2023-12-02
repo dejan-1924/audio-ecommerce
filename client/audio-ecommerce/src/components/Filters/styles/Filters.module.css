@@ -1,0 +1,154 @@
+.productlist {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.filters {
+  display: flex;
+  padding: 1rem 0rem;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter__item_container {
+  display: flex;
+  gap: 0rem;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.filter__item {
+  min-width: 100px;
+  padding: 0.4rem;
+  width: 150px;
+  border-radius: 0.3rem;
+  display: flex;
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+}
+
+.filter__item_artist {
+  min-width: 100px;
+  padding: 0.4rem;
+  width: 200px;
+  border-radius: 0.3rem;
+  display: flex;
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+  justify-content: flex-start;
+}
+
+.filter__item_selected {
+  padding: 0.5rem 2rem;
+
+  display: flex;
+  border: 1px solid grey;
+}
+
+.filters {
+  display: none;
+}
+
+.filter {
+  position: relative;
+}
+
+.orderbutton {
+  background-color: rgb(230, 228, 228);
+  color: rgb(51, 51, 51);
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.8rem;
+}
+
+.filter__menu_ordering {
+  position: absolute;
+  background-color: white;
+  top: 2.2rem;
+}
+
+.filter__menu_ordering ul {
+  list-style-type: none;
+}
+.filter__menu_ordering ul li {
+  padding: 0.5rem;
+  min-width: 150px;
+  font-size: 0.9rem;
+  border-top: 1px solid rgb(225, 223, 223);
+  border-left: 1px solid rgb(225, 223, 223);
+}
+
+.filter__menu_ordering ul li:hover {
+  background-color: rgb(50, 95, 199);
+  color: white;
+}
+
+.filter__item_selected {
+  background-color: rgb(50, 95, 199);
+  color: white;
+}
+.artists__container {
+  height: 200px;
+  min-width: 200px;
+  position: absolute;
+
+  border: 1px solid rgb(225, 223, 223);
+  background-color: white;
+}
+.formats__container {
+  height: 130px;
+  min-width: 200px;
+  position: absolute;
+
+  border: 1px solid rgb(225, 223, 223);
+  background-color: white;
+}
+
+.artists {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  overflow-y: scroll;
+  max-height: 150px;
+}
+
+.artist {
+  padding: 0.5rem;
+  border-top: 1px solid rgb(225, 223, 223);
+  border-left: 1px solid rgb(225, 223, 223);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.artist:last-of-type {
+  border-bottom: 1px solid rgb(225, 223, 223);
+}
+
+.filter__item_applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.applyfilter__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.applyfilter__button {
+  margin: 1rem;
+  background-color: rgb(67, 111, 182);
+  color: white;
+  padding: 0.5rem;
+  border: none;
+  width: 150px;
+  border-radius: 0.3rem;
+}
+
+@media screen and (min-width: 700px) {
+  .filters {
+    display: flex;
+  }
+}

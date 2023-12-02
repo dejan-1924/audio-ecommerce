@@ -3,12 +3,15 @@
   width: 80%;
   height: 100vh;
   top: 0;
-  left: 0;
+  right: 0;
   z-index: 100;
   background-color: rgb(255, 255, 255);
   padding: 1rem;
   color: rgb(45, 45, 45);
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidemenu__header {
@@ -59,4 +62,19 @@
 }
 .artist:first-of-type {
   margin-top: 0.5rem;
+}
+
+.applyfilter_button {
+  background-color: rgb(67, 111, 182);
+  color: white;
+  padding: 0.7rem;
+  border: none;
+  width: 100%;
+  border-radius: 0.3rem;
+}
+
+.applyfilter_button_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

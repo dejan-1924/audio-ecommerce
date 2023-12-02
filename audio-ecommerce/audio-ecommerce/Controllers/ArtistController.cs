@@ -17,7 +17,7 @@ namespace audio_ecommerce.Controllers
             this._artistService = artistService;
         }
 
-        [HttpPost(Name = "GetAllArtists")]
+        [HttpGet(Name = "GetAllArtists")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<ArtistDTO>> GetAll()
         {

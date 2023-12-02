@@ -8,6 +8,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import FiltersModal from "../../components/Filters/FiltersModal";
 import Backdrop from "../../components/SideMenu/Backdrop";
+import Filters from "../../components/Filters/Filters";
 
 const ordering_options = [
   { label: "Relevance", value: "REL" },
@@ -24,6 +25,11 @@ const ProductsPage = () => {
     handleGetSelectedArtists,
     handleGetOrdering,
     handleSetOrdering,
+    handleGetSelectedFormats,
+    handleSetSearchQuery,
+    getFilters,
+    setFilters,
+    resetArtists,
   } = useContext(ShopContext);
   const {
     data: products,
@@ -32,8 +38,8 @@ const ProductsPage = () => {
   } = useGetProductsBySearchQuery(
     handleGetPage(),
     handleGetSearchQuery(),
-    handleGetOrdering(),
-    handleGetSelectedArtists(),
+    handleGetOrdering().value,
+    getFilters(),
     itemNumber
   );
   const [toggleFilters, setToggleFilters] = useState(false);
@@ -52,10 +58,59 @@ const ProductsPage = () => {
 
   return (
     <div className={classes.page__container}>
-      {toggleFilters && (
+      {toggleFilters && !isLoading && (
         <FiltersModal closeModal={closeFilterModal}></FiltersModal>
       )}
       {toggleFilters && <Backdrop closeSideMenu={closeFilterModal}></Backdrop>}
+
+      <div className={classes.filters__container}>
+        <div className={classes.orderbuttons_container}>
+          <button
+            className={classes.orderbutton}
+            onClick={handleToggleOrdering}
+          >
+            <ImportExportIcon></ImportExportIcon>
+          </button>
+          {toggleOrdering && (
+            <div className={classes.ordering}>
+              <ul>
+                {ordering_options.map((option) => {
+                  return (
+                    <li
+                      onClick={() => {
+                        handleSetOrdering(option);
+                        setToggleOrdering(false);
+                      }}
+                      className={
+                        option.value === handleGetOrdering().value
+                          ? classes.ordering__selected
+                          : ""
+                      }
+                    >
+                      {option.label}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </div>
+        <button
+          className={classes.filterbutton}
+          onClick={handleOpenFilterModal}
+        >
+          <TuneIcon></TuneIcon>
+        </button>
+      </div>
+      <Filters></Filters>
+      {handleGetSearchQuery() !== "" && (
+        <div
+          onClick={() => handleSetSearchQuery("")}
+          className={classes.queryreset__button}
+        >
+          Search "{handleGetSearchQuery()}"
+        </div>
+      )}
       {!isLoading ? (
         <>
           <div className={classes.productlist__container}>
@@ -69,48 +124,7 @@ const ProductsPage = () => {
                 >{` ${products?.totalCount} Items`}</span>
               </div>
             )}
-            <div>
-              <div></div>
-              <div className={classes.filters__container}>
-                <div className={classes.orderbuttons_container}>
-                  <button
-                    className={classes.orderbutton}
-                    onClick={handleToggleOrdering}
-                  >
-                    <ImportExportIcon></ImportExportIcon>
-                  </button>
-                  {toggleOrdering && (
-                    <div className={classes.ordering}>
-                      <ul>
-                        {ordering_options.map((option) => {
-                          return (
-                            <li
-                              onClick={() => {
-                                handleSetOrdering(option.value);
-                                setToggleOrdering(false);
-                              }}
-                              className={
-                                option.value === handleGetOrdering()
-                                  ? classes.ordering__selected
-                                  : ""
-                              }
-                            >
-                              {option.label}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-                <button
-                  className={classes.filterbutton}
-                  onClick={handleOpenFilterModal}
-                >
-                  <TuneIcon></TuneIcon>
-                </button>
-              </div>
-            </div>
+
             {products?.entities?.length > 0 ? (
               <>
                 <div className={classes.productlist}>

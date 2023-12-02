@@ -5,18 +5,19 @@ export const useGetProductsBySearchQuery = (
   page: number,
   searchQuery: string,
   ordering: string,
-  artistIds: number,
+  filters: Array<any>,
   pageSize: number
 ) =>
   useQuery({
-    queryKey: ["products", page, searchQuery, artistIds, ordering],
+    queryKey: ["products", page, searchQuery, filters, ordering],
     queryFn: () =>
       axios
         .post(`http://localhost:5100/api/Product`, {
           searchQuery,
           page,
           ordering,
-          artistIds,
+          artistIds: filters.artistIds,
+          formatIds: filters.formatIds,
           pageSize,
         })
         .then((res) => {

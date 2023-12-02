@@ -15,6 +15,7 @@ const SearchBar = () => {
   const handleSearch = () => {
     shopCtx?.handleSetSearchQuery(queryRef.current.value);
     shopCtx?.handleResetPage();
+    queryRef.current.value = "";
     navigate("/shop");
   };
 
@@ -24,7 +25,7 @@ const SearchBar = () => {
         sx={{
           input: {
             color: "black",
-            backgroundColor: "rgb(237, 235, 235)",
+            backgroundColor: "rgb(247, 245, 245)",
             padding: "0.5rem",
             "&::placeholder": {
               color: "grey",
@@ -41,7 +42,7 @@ const SearchBar = () => {
               sx={{
                 padding: "1.2rem",
                 margin: "0rem",
-                backgroundColor: "rgb(237, 235, 235)",
+                backgroundColor: "rgb(247, 245, 245)",
               }}
             >
               <SearchIcon onClick={handleSearch} />

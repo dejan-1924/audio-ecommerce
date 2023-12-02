@@ -94,6 +94,12 @@
   border-top: 1px solid rgb(126, 126, 126);
 }
 
+.navbar__left_FS {
+  display: none;
+}
+.navbar__search {
+  display: none;
+}
 @media only screen and (min-width: 1000px) {
   .navbar {
     margin: auto;
@@ -105,5 +111,27 @@
     margin: auto;
     width: 60%;
     min-width: 800px;
+  }
+  .navbar__left {
+    display: none;
+  }
+  .navbar__left_FS {
+    display: flex;
+    gap: 1rem;
+  }
+  .navbar__search {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar__search input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    font-size: 0.95rem;
+  }
+  .navbar__search input:focus {
+    outline: none;
   }
 }

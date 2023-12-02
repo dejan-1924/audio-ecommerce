@@ -15,10 +15,18 @@ export interface IShopContext {
   handleGetPage: () => number;
   handleSetPage: (page: number) => void;
   handleSelectedArtist: (id: number) => void;
-  handleGetSelectedArtists: () => number;
+  handleGetSelectedArtists: () => Array<number>;
+  handleSetSelectedFormats: (id: number) => void;
+  handleGetSelectedFormats: () => Array<number>;
+  isFormatChecked: (id: number) => boolean;
   isArtistChecked: (id: number) => boolean;
   handleGetOrdering: () => string;
   handleSetOrdering: (ordering: string) => void;
+  resetFormats: () => void;
+  resetArtists: () => void;
+  resetFilters: () => void;
+  setFilters: () => void;
+  getFilters: () => Array<any>;
 }
 
 export const ShopContext = createContext<IShopContext | null>(null);
@@ -29,11 +37,20 @@ export const ShopContextProvider = (props: any) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [page, setPage] = useState(1);
   const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
+  const [selectedFormats, setSelectedFormats] = useState<number[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<{}>({
+    artistIds: [],
+    formatIds: [],
+  });
 
-  const [ordering, setOrdering] = useState<string>("REL");
+  const [ordering, setOrdering] = useState<any>({
+    value: "REL",
+    label: "Relevance",
+  });
 
   const handleSelectedArtist = (id: number) => {
     let artists = [];
+    handleResetPage();
     if (selectedArtists.length < 1) {
       artists.push(id);
       setSelectedArtists(artists);
@@ -86,6 +103,58 @@ export const ShopContextProvider = (props: any) => {
     return selectedArtists.filter((artistId) => artistId == id).length !== 0;
   };
 
+  const handleGetSelectedFormats = () => {
+    return selectedFormats;
+  };
+  const handleSetSelectedFormats = (id: number) => {
+    let formats = [];
+    handleResetPage();
+    if (selectedFormats.length < 1) {
+      formats.push(id);
+      setSelectedFormats(formats);
+    }
+    let isFormatSelected =
+      selectedFormats.filter((formatId) => formatId == id).length == 0;
+
+    if (isFormatSelected) {
+      formats = [...selectedFormats];
+      formats.push(id);
+      setSelectedFormats(formats);
+    } else {
+      formats = selectedFormats.filter((formatId) => formatId !== id);
+      setSelectedFormats(formats);
+    }
+  };
+
+  const isFormatChecked = (id: number) => {
+    return selectedFormats.filter((formatId) => formatId == id).length !== 0;
+  };
+
+  const resetArtists = () => {
+    setSelectedArtists([]);
+  };
+  const resetFormats = () => {
+    setSelectedFormats([]);
+  };
+
+  const resetFilters = () => {
+    setSelectedFormats([]);
+    setSelectedArtists([]);
+    setSearchQuery("");
+    handleResetPage();
+  };
+
+  const setFilters = () => {
+    setSelectedFilters({
+      artistIds: handleGetSelectedArtists(),
+      formatIds: handleGetSelectedFormats(),
+    });
+  };
+
+  const getFilters = () => {
+    return selectedFilters;
+  };
+
   const contextValue: IShopContext = {
     handleSetSearchQuery,
     handleGetSearchQuery,
@@ -97,6 +166,14 @@ export const ShopContextProvider = (props: any) => {
     isArtistChecked,
     handleSetOrdering,
     handleGetOrdering,
+    handleSetSelectedFormats,
+    handleGetSelectedFormats,
+    isFormatChecked,
+    resetArtists,
+    resetFormats,
+    resetFilters,
+    setFilters,
+    getFilters,
   };
 
   return (

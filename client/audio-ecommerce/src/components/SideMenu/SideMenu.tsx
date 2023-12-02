@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "../Navbar/styles/Navbar.module.css";
 import { Link } from "react-router-dom";
+
 const SideMenu = (props: any) => {
   return (
     <div className={classes.sidemenu}>

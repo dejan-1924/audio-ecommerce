@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import SearchBar from "../Navbar/SearchBar";
 import classes from "./styles/RootLayout.module.css";
+import Footer from "../Footer/Footer";
 
 const RootLayout = () => {
   return (
@@ -12,6 +13,7 @@ const RootLayout = () => {
       <main className={classes.main}>
         <Outlet></Outlet>
       </main>
+      <Footer></Footer>
     </>
   );
 };

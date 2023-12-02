@@ -16,6 +16,14 @@ namespace audio_ecommerce.Models
         [ForeignKey("ArtistId")]
         public Artist Artist { get; set; } = null!;
         public int ArtistId { get; set; }
+
+        [ForeignKey("LabelId")]
+        public Label Label { get; set; } = null!;
+        public int LabelId { get; set; }
+
+        [ForeignKey("FormatId")]
+        public Format Format { get; set; } = null!;
+        public int FormatId { get; set; }
         [Required]
         public DateTime CreatedDate { get; set; }
         [Required]

@@ -1,4 +1,5 @@
 ﻿using audio_ecommerce.Models;
+using audio_ecommerce.Models.DTOs.Artist;
 using audio_ecommerce.Models.DTOs.Pagination;
 using audio_ecommerce.Models.DTOs.Product;
 using audio_ecommerce.Repositories;
@@ -37,14 +38,30 @@ namespace audio_ecommerce.Services.impl
         public PaginationWrapper<ProductPreviewDTO> GetAll(ProductFilterQuery query)
         {
 
-            var products = _unitOfWork.ProductRepository.GetAll().Include(product => product.Artist).Where(p => p.Name.Contains(query.SearchQuery) || p.Artist.Name.Contains(query.SearchQuery)).Where(p => !p.IsDeleted);
+            var products = _unitOfWork.ProductRepository.GetAll().Include(product => product.Artist).Include(product => product.Label).Include(product => product.Format).Where(p => p.Name.Contains(query.SearchQuery) || p.Artist.Name.Contains(query.SearchQuery)).Where(p => !p.IsDeleted);
 
-
+            if (query.FormatIds != null && query.FormatIds.Any())
+            {
+                products = products.Where(p => query.FormatIds.Contains(p.FormatId));
+            }
 
             if (query.ArtistIds != null && query.ArtistIds.Any())
             {
                 products = products.Where(p => query.ArtistIds.Contains(p.ArtistId));
             }
+
+            var artistGroupedProducts = products.GroupBy(p => p.ArtistId).ToList();
+            var formatGroupedProducts = products.GroupBy(p => p.FormatId).ToList();
+            var labelGroupedProducts = products.GroupBy(p => p.LabelId).ToList();
+
+            var artistProductCount = artistGroupedProducts
+                .Select(group => new ArtistCountDTO(group.Key, group.First().Artist.Name, group.Count()));
+
+            var formatProductCount = formatGroupedProducts
+                .Select(group => new ArtistCountDTO(group.Key, group.First().Format.Name, group.Count()));
+
+            var labelProductCount = labelGroupedProducts
+                .Select(group => new ArtistCountDTO(group.Key, group.First().Label.Name, group.Count()));
 
             var count = products.Count();
 
@@ -67,17 +84,22 @@ namespace audio_ecommerce.Services.impl
                 filteredProducts = _mapper.Map<List<ProductPreviewDTO>>(products.OrderByDescending(t => t.CreatedDate).Skip((query.Page - 1) * query.PageSize).Take(query.PageSize));
             }
 
+
+
             return new PaginationWrapper<ProductPreviewDTO>
             {
                 TotalCount = count,
-                Entities = filteredProducts
+                Entities = filteredProducts,
+                Artists = artistProductCount,
+                Formats = formatProductCount,
+                Labels = labelProductCount
             };
 
         }
 
         public ProductDTO GetProductById(int id)
         {
-            Product? product = _unitOfWork.ProductRepository.GetById(id, p => p.Artist);
+            Product? product = _unitOfWork.ProductRepository.GetById(id, p => p.Artist, p => p.Label, p => p.Format);
             if (product == null)
             {
                 throw new InvalidOperationException("Product with sent ID does not exist!");
