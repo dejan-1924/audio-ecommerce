@@ -18,6 +18,8 @@ const FiltersModal = (props: any) => {
     handleSetSelectedFormats,
     isFormatChecked,
     setFilters,
+    isLabelChecked,
+    handleSetSelectedLabels,
   } = useContext(ShopContext);
 
   const [labels, setLabels] = useState<any[]>([]);
@@ -25,6 +27,13 @@ const FiltersModal = (props: any) => {
     axios.get(`http://localhost:5100/api/Artist`).then((res) => {
       console.log(res.data);
       setArtists(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5100/api/Label`).then((res) => {
+      console.log(res.data);
+      setLabels(res.data);
     });
   }, []);
 
@@ -41,6 +50,14 @@ const FiltersModal = (props: any) => {
   };
   const hadnleIsFormatChecked = (id: number) => {
     return isFormatChecked(id);
+  };
+
+  const handleCheckLabel = (id: number) => {
+    handleSetSelectedLabels(id);
+  };
+
+  const hadnleIsLabelChecked = (id: number) => {
+    return isLabelChecked(id);
   };
 
   const handleApplyFilters = () => {
@@ -119,17 +136,17 @@ const FiltersModal = (props: any) => {
 
             {toggleLabels && (
               <>
-                {artists && (
+                {labels && (
                   <div className={classes.artists}>
-                    {artists.map((artist) => {
+                    {labels.map((label) => {
                       return (
                         <label className={classes.artist}>
                           <input
                             type="checkbox"
-                            checked={isChecked(artist.id)}
-                            onChange={() => handleCheckArtist(artist.id)}
+                            checked={isLabelChecked(label.id)}
+                            onChange={() => handleCheckLabel(label.id)}
                           ></input>
-                          {artist.name}
+                          {label.name}
                         </label>
                       );
                     })}

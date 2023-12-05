@@ -12,6 +12,7 @@ namespace audio_ecommerce.Repositories
         private IGenericRepository<Order> _orderRepository;
         private IGenericRepository<OrderItem> _orderItemRepository;
         private IGenericRepository<Address> _addressRepository;
+        private IGenericRepository<Label> _labelRepository;
 
 
         private DbContext _dbContext;
@@ -83,6 +84,15 @@ namespace audio_ecommerce.Repositories
             {
                 _addressRepository ??= new GenericRepository<Address>(_dbContext);
                 return _addressRepository;
+            }
+        }
+
+        public IGenericRepository<Label> LabelRepository
+        {
+            get
+            {
+                _labelRepository ??= new GenericRepository<Label>(_dbContext);
+                return _labelRepository;
             }
         }
 

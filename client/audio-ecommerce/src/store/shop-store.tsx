@@ -18,6 +18,8 @@ export interface IShopContext {
   handleGetSelectedArtists: () => Array<number>;
   handleSetSelectedFormats: (id: number) => void;
   handleGetSelectedFormats: () => Array<number>;
+  handleSetSelectedLabels: (id: number) => void;
+  handleGetSelectedLabels: () => Array<number>;
   isFormatChecked: (id: number) => boolean;
   isArtistChecked: (id: number) => boolean;
   handleGetOrdering: () => string;
@@ -25,8 +27,10 @@ export interface IShopContext {
   resetFormats: () => void;
   resetArtists: () => void;
   resetFilters: () => void;
+  resetLabels: () => void;
   setFilters: () => void;
   getFilters: () => Array<any>;
+  isLabelChecked: (id: number) => boolean;
 }
 
 export const ShopContext = createContext<IShopContext | null>(null);
@@ -38,9 +42,11 @@ export const ShopContextProvider = (props: any) => {
   const [page, setPage] = useState(1);
   const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<number[]>([]);
+  const [selectedLabels, setSelectedLabels] = useState<number[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<{}>({
     artistIds: [],
     formatIds: [],
+    labelIds: [],
   });
 
   const [ordering, setOrdering] = useState<any>({
@@ -137,10 +143,47 @@ export const ShopContextProvider = (props: any) => {
     setSelectedFormats([]);
   };
 
+  const handleGetSelectedLabels = () => {
+    return selectedLabels;
+  };
+  const handleSetSelectedLabels = (id: number) => {
+    let labels = [];
+    handleResetPage();
+    if (selectedLabels.length < 1) {
+      labels.push(id);
+      setSelectedLabels(labels);
+    }
+    let isLabelSelected =
+      selectedLabels.filter((labelId) => labelId == id).length == 0;
+
+    if (isLabelSelected) {
+      labels = [...selectedLabels];
+      labels.push(id);
+      setSelectedLabels(labels);
+    } else {
+      labels = selectedLabels.filter((labelId) => labelId !== id);
+      setSelectedLabels(labels);
+    }
+  };
+
+  const isLabelChecked = (id: number) => {
+    return selectedLabels.filter((labelId) => labelId == id).length !== 0;
+  };
+
+  const resetLabels = () => {
+    setSelectedLabels([]);
+  };
+
   const resetFilters = () => {
-    setSelectedFormats([]);
-    setSelectedArtists([]);
+    resetFormats();
+    resetArtists();
+    resetLabels();
     setSearchQuery("");
+    setSelectedFilters({
+      artistIds: [],
+      formatIds: [],
+      labelIds: [],
+    });
     handleResetPage();
   };
 
@@ -148,6 +191,7 @@ export const ShopContextProvider = (props: any) => {
     setSelectedFilters({
       artistIds: handleGetSelectedArtists(),
       formatIds: handleGetSelectedFormats(),
+      labelIds: handleGetSelectedLabels(),
     });
   };
 
@@ -174,6 +218,10 @@ export const ShopContextProvider = (props: any) => {
     resetFilters,
     setFilters,
     getFilters,
+    handleSetSelectedLabels,
+    handleGetSelectedLabels,
+    isLabelChecked,
+    resetLabels,
   };
 
   return (

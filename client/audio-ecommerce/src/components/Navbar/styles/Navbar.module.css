@@ -103,13 +103,14 @@
 @media only screen and (min-width: 1000px) {
   .navbar {
     margin: auto;
-    width: 60%;
+    width: 55%;
     min-width: 800px;
+    padding: 1rem 0rem;
   }
   .searchbar {
     display: none;
     margin: auto;
-    width: 60%;
+    width: 55%;
     min-width: 800px;
   }
   .navbar__left {

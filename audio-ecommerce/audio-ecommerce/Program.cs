@@ -81,6 +81,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ILabelService, LabelService>();
 builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
 builder.Services.AddControllersWithViews()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

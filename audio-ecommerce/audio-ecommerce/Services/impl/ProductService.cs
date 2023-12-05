@@ -50,6 +50,11 @@ namespace audio_ecommerce.Services.impl
                 products = products.Where(p => query.ArtistIds.Contains(p.ArtistId));
             }
 
+            if (query.LabelIds != null && query.LabelIds.Any())
+            {
+                products = products.Where(p => query.LabelIds.Contains(p.LabelId));
+            }
+
             var artistGroupedProducts = products.GroupBy(p => p.ArtistId).ToList();
             var formatGroupedProducts = products.GroupBy(p => p.FormatId).ToList();
             var labelGroupedProducts = products.GroupBy(p => p.LabelId).ToList();

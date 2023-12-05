@@ -10,7 +10,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RootLayout from "./components/Layout/RootLayout";
 import ErrorPage from "./pages/Error/ErrorPage";
 import LandingPage from "./pages/Landing/LandingPage";
-
 import LoginPage from "./pages/Auth/LoginPage";
 import ProductsPage from "./pages/Products/ProductsPage";
 import WishlistPage from "./pages/Wishlist/WishlistPage";
@@ -19,6 +18,8 @@ import AuthPage from "./pages/Auth/AuthPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import AuthRoute from "./components/Auth/AuthRoute";
 import ProductPage from "./pages/Products/ProductPage";
+import store from "./store";
+import { Provider } from "react-redux";
 
 const queryClient = new QueryClient({});
 
@@ -45,9 +46,11 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Provider>
   );
 }
 

@@ -3,10 +3,17 @@ import classes from "./styles/ProductPage.module.css";
 import { useParams } from "react-router";
 import { useGetProductByIdQuery } from "../../hooks/productHooks";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../slices/cartSlice";
 
 const ProductPage = () => {
   const params = useParams();
   const { data: product, isLoading, error } = useGetProductByIdQuery(params.id);
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, amount: 1 }));
+  };
 
   return (
     <>
@@ -25,7 +32,10 @@ const ProductPage = () => {
               <button className={classes.product__wishlistbutton}>
                 <FavoriteBorderIcon></FavoriteBorderIcon>
               </button>
-              <button className={classes.product__cartbutton}>
+              <button
+                className={classes.product__cartbutton}
+                onClick={addToCartHandler}
+              >
                 Add to cart
               </button>
             </div>

@@ -11,6 +11,8 @@ import SideMenu from "../SideMenu/SideMenu";
 import Backdrop from "../SideMenu/Backdrop";
 import { AuthContext } from "../../store/auth-store";
 import { ShopContext } from "../../store/shop-store";
+import { useSelector } from "react-redux";
+import cartSlice from "../../slices/cartSlice";
 
 const Navbar = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -23,6 +25,8 @@ const Navbar = () => {
   } = useContext(ShopContext);
   const { toggleSearch, setToggleSearch } = useState(false);
   const queryRef = useRef();
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
 
   const handleOpenSideMenu = () => {
     setIsSideMenuOpen(true);
@@ -100,11 +104,9 @@ const Navbar = () => {
               <PersonOutlineIcon></PersonOutlineIcon>
             </Link>
           )}
-          <Link to="/wishlist" className={classes.navbar__item}>
-            <FavoriteBorderIcon></FavoriteBorderIcon>
-          </Link>
+
           <Link to="/cart" className={classes.navbar__item}>
-            <Badge badgeContent={1} color="primary">
+            <Badge badgeContent={cartItems.length} color="primary">
               <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
           </Link>

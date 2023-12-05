@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "../Navbar/styles/Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ShopContext } from "../../store/shop-store";
 
 const SideMenu = (props: any) => {
+  const navigate = useNavigate();
+  const { resetFilters } = useContext(ShopContext);
+  const handleViewRecords = () => {
+    if (location.pathname != "/shop") {
+      resetFilters();
+    }
+    navigate("/shop");
+  };
+
   return (
     <div className={classes.sidemenu}>
       <div className={classes.sidemenu__header}>
@@ -15,14 +25,12 @@ const SideMenu = (props: any) => {
       </div>
       <div className={classes.sidemenu__body}>
         <div className={classes.sidemenu__item} onClick={props.closeModal}>
-          <Link to="/shop" className={classes.sidemenu__link}>
+          <div onClick={handleViewRecords} className={classes.sidemenu__link}>
             Records
-          </Link>
+          </div>
         </div>
         <div className={classes.sidemenu__item} onClick={props.closeModal}>
-          <Link to="/" className={classes.sidemenu__link}>
-            Clothing
-          </Link>
+          <div className={classes.sidemenu__link}>Clothing</div>
         </div>
         <div></div>
       </div>

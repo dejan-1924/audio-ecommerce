@@ -23,7 +23,9 @@ const Filters = (props: any) => {
   const [toggleOrdering, setToggleOrdering] = useState(false);
   const [toggleArtists, setToggleArtists] = useState(false);
   const [toggleFormats, setToggleFormats] = useState(false);
+  const [toggleLabels, setToggleLabels] = useState(false);
   const [artists, setArtists] = useState<any[]>([]);
+  const [labels, setLabels] = useState<any[]>([]);
   const {
     handleGetPage,
     handleSetPage,
@@ -36,6 +38,9 @@ const Filters = (props: any) => {
     handleSetSelectedFormats,
     handleGetSelectedFormats,
     isFormatChecked,
+    isLabelChecked,
+    handleGetSelectedLabels,
+    handleSetSelectedLabels,
     setFilters,
   } = useContext(ShopContext);
 
@@ -43,6 +48,13 @@ const Filters = (props: any) => {
     axios.get(`http://localhost:5100/api/Artist`).then((res) => {
       console.log(res.data);
       setArtists(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5100/api/Label`).then((res) => {
+      console.log(res.data);
+      setLabels(res.data);
     });
   }, []);
 
@@ -55,7 +67,9 @@ const Filters = (props: any) => {
   const handleToggleFormats = () => {
     setToggleFormats(!toggleFormats);
   };
-
+  const handleToggleLabels = () => {
+    setToggleLabels(!toggleLabels);
+  };
   const isChecked = (id: number) => {
     return isArtistChecked(id);
   };
@@ -66,15 +80,28 @@ const Filters = (props: any) => {
   const handleCheckFormat = (id: number) => {
     handleSetSelectedFormats(id);
   };
+  const handleCheckLabel = (id: number) => {
+    handleSetSelectedLabels(id);
+  };
   const hadnleIsFormatChecked = (id: number) => {
     return isFormatChecked(id);
+  };
+  const hadnleIsLabelChecked = (id: number) => {
+    return isLabelChecked(id);
   };
 
   const handleApplyArtists = () => {
     setFilters();
     setToggleArtists(false);
   };
-
+  const handleApplyLabels = () => {
+    setFilters();
+    setToggleLabels(false);
+  };
+  const handleApplyFormats = () => {
+    setFilters();
+    setToggleFormats(false);
+  };
   return (
     <div className={classes.filters}>
       <div className={classes.filter}>
@@ -185,7 +212,48 @@ const Filters = (props: any) => {
               <div className={classes.applyfilter__container}>
                 <button
                   className={classes.applyfilter__button}
-                  onClick={handleApplyArtists}
+                  onClick={handleApplyFormats}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      <div className={classes.filter}>
+        <div className={classes.filter__item_container}>
+          <div
+            className={classes.filter__item_artist}
+            onClick={handleToggleLabels}
+          >
+            <div className={classes.filter__item_applied}>
+              Label
+              <KeyboardArrowDownIcon></KeyboardArrowDownIcon>
+            </div>
+          </div>
+        </div>
+        {toggleLabels && (
+          <>
+            <div className={classes.labels__container}>
+              <div className={classes.artists}>
+                {labels.map((label: any) => {
+                  return (
+                    <label className={classes.artist}>
+                      <input
+                        type="checkbox"
+                        checked={hadnleIsLabelChecked(label.id)}
+                        onChange={() => handleCheckLabel(label.id)}
+                      ></input>
+                      {label.name}
+                    </label>
+                  );
+                })}
+              </div>
+              <div className={classes.applyfilter__container}>
+                <button
+                  className={classes.applyfilter__button}
+                  onClick={handleApplyLabels}
                 >
                   Apply
                 </button>

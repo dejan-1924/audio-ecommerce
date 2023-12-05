@@ -12,6 +12,8 @@ namespace audio_ecommerce.Repositories
         IGenericRepository<Genre> GenreRepository { get; }
 
         IGenericRepository<Artist> ArtistRepository { get; }
+
+        IGenericRepository<Label> LabelRepository { get; }
         Task SaveChanges();
     }
 }

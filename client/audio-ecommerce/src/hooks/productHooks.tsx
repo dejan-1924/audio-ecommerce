@@ -18,6 +18,7 @@ export const useGetProductsBySearchQuery = (
           ordering,
           artistIds: filters.artistIds,
           formatIds: filters.formatIds,
+          labelIds: filters.labelIds,
           pageSize,
         })
         .then((res) => {

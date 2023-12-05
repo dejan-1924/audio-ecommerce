@@ -3,7 +3,7 @@
 }
 
 .filters {
-  display: flex;
+  display: grid;
   padding: 1rem 0rem;
   gap: 1rem;
   margin-bottom: 0.5rem;
@@ -18,7 +18,7 @@
 .filter__item {
   min-width: 100px;
   padding: 0.4rem;
-  width: 150px;
+  width: 200px;
   border-radius: 0.3rem;
   display: flex;
   border: 1px solid grey;
@@ -38,7 +38,6 @@
 
 .filter__item_selected {
   padding: 0.5rem 2rem;
-
   display: flex;
   border: 1px solid grey;
 }
@@ -63,6 +62,7 @@
   position: absolute;
   background-color: white;
   top: 2.2rem;
+  z-index: 5;
 }
 
 .filter__menu_ordering ul {
@@ -70,7 +70,7 @@
 }
 .filter__menu_ordering ul li {
   padding: 0.5rem;
-  min-width: 150px;
+  min-width: 200px;
   font-size: 0.9rem;
   border-top: 1px solid rgb(225, 223, 223);
   border-left: 1px solid rgb(225, 223, 223);
@@ -101,7 +101,14 @@
   border: 1px solid rgb(225, 223, 223);
   background-color: white;
 }
+.labels__container {
+  height: 170px;
+  min-width: 200px;
+  position: absolute;
 
+  border: 1px solid rgb(225, 223, 223);
+  background-color: white;
+}
 .artists {
   display: flex;
   flex-direction: column;
@@ -149,6 +156,36 @@
 
 @media screen and (min-width: 700px) {
   .filters {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto;
+
+    justify-content: start;
+  }
+}
+
+@media screen and (min-width: 870px) {
+  .filters {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+
+    justify-content: start;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .filters {
+    display: grid;
+    grid-template-columns: auto auto auto;
+
+    justify-content: start;
+  }
+}
+
+@media screen and (min-width: 1450px) {
+  .filters {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+
+    justify-content: start;
   }
 }

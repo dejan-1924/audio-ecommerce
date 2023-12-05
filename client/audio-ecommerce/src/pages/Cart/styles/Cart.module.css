@@ -1,0 +1,10 @@
+.title {
+  padding: 1rem;
+}
+.emptycart__container {
+  padding: 1rem;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

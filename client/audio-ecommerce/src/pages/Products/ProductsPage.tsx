@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useGetProductsBySearchQuery } from "../../hooks/productHooks";
 import { Pagination } from "@mui/material";
 import classes from "./styles/ProductsPage.module.css";
@@ -55,6 +55,15 @@ const ProductsPage = () => {
   const handleToggleOrdering = () => {
     setToggleOrdering(!toggleOrdering);
   };
+
+  //Not allowing scrolling when filters are open
+  useEffect(() => {
+    if (toggleFilters) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [toggleFilters]);
 
   return (
     <div className={classes.page__container}>
@@ -147,7 +156,10 @@ const ProductsPage = () => {
                       variant="outlined"
                       shape="rounded"
                       page={handleGetPage()}
-                      onChange={(e, value) => handleSetPage(value)}
+                      onChange={(e, value) => {
+                        handleSetPage(value);
+                        window.scrollTo(0, 0);
+                      }}
                     />
                   </div>
                 )}
