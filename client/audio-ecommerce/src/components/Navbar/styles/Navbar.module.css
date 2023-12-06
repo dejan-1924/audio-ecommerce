@@ -30,6 +30,7 @@
 .navbar__item {
   text-decoration: none;
   color: white;
+  cursor: pointer;
 }
 
 .sidemenu {
@@ -42,7 +43,6 @@
   background-color: rgb(18, 18, 18);
   padding: 1rem;
   color: white;
-  overflow-y: scroll;
 }
 
 .sidemenu__header {

@@ -27,7 +27,6 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
 }
 
 .product__image {
@@ -106,14 +105,14 @@
     max-width: 160px;
   }
   .product__artist {
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 600;
   }
   .product__container {
     gap: 1rem;
   }
   .product__title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
   }
   .product__details {

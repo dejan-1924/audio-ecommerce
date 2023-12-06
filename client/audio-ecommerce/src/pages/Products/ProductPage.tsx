@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./styles/ProductPage.module.css";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGetProductByIdQuery } from "../../hooks/productHooks";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const ProductPage = () => {
   const params = useParams();
   const { data: product, isLoading, error } = useGetProductByIdQuery(params.id);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, amount: 1 }));
   };
@@ -25,13 +25,14 @@ const ProductPage = () => {
             <img src={product.imageUrl} className={classes.image}></img>
           </div>
           <div className={classes.info}>
-            <p className={classes.product__artist}>{product.artistName}</p>
-            <p className={classes.product__title}>{product.name}</p>
+            <div>
+              <p className={classes.product__artist} onClick={() => {}}>
+                {product.artistName}
+              </p>
+              <p className={classes.product__title}>{product.name}</p>
+            </div>
             <p className={classes.product__price}>{product.price}€</p>
             <div className={classes.product__actions}>
-              <button className={classes.product__wishlistbutton}>
-                <FavoriteBorderIcon></FavoriteBorderIcon>
-              </button>
               <button
                 className={classes.product__cartbutton}
                 onClick={addToCartHandler}

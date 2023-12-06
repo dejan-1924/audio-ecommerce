@@ -20,6 +20,8 @@ import AuthRoute from "./components/Auth/AuthRoute";
 import ProductPage from "./pages/Products/ProductPage";
 import store from "./store";
 import { Provider } from "react-redux";
+import MyOrdersPage from "./pages/Profile/Orders/MyOrdersPage";
+import ProfileInfoPage from "./pages/Profile/Information/ProfileInfoPage";
 
 const queryClient = new QueryClient({});
 
@@ -37,6 +39,11 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<CartPage></CartPage>} />
       <Route element={<AuthRoute></AuthRoute>}>
         <Route path="/profile" element={<ProfilePage></ProfilePage>} />
+        <Route path="/profile/orders" element={<MyOrdersPage></MyOrdersPage>} />
+        <Route
+          path="/profile/information"
+          element={<ProfileInfoPage></ProfileInfoPage>}
+        />
         <Route path="/wishlist" element={<WishlistPage></WishlistPage>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

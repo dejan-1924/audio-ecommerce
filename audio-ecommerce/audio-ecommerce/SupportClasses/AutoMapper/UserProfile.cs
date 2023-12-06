@@ -9,6 +9,7 @@ namespace audio_ecommerce.SupportClasses.AutoMapper
         public UserProfile()
         {
             CreateMap<NewUserDTO, User>();
+            CreateMap<User, UserDTO>();
         }
 
 

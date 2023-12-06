@@ -90,16 +90,10 @@ const Filters = (props: any) => {
     return isLabelChecked(id);
   };
 
-  const handleApplyArtists = () => {
-    setFilters();
-    setToggleArtists(false);
-  };
-  const handleApplyLabels = () => {
+  const handleApplyFilter = () => {
     setFilters();
     setToggleLabels(false);
-  };
-  const handleApplyFormats = () => {
-    setFilters();
+    setToggleArtists(false);
     setToggleFormats(false);
   };
   return (
@@ -170,7 +164,7 @@ const Filters = (props: any) => {
                 <div className={classes.applyfilter__container}>
                   <button
                     className={classes.applyfilter__button}
-                    onClick={handleApplyArtists}
+                    onClick={handleApplyFilter}
                   >
                     Apply
                   </button>
@@ -212,7 +206,7 @@ const Filters = (props: any) => {
               <div className={classes.applyfilter__container}>
                 <button
                   className={classes.applyfilter__button}
-                  onClick={handleApplyFormats}
+                  onClick={handleApplyFilter}
                 >
                   Apply
                 </button>
@@ -253,7 +247,7 @@ const Filters = (props: any) => {
               <div className={classes.applyfilter__container}>
                 <button
                   className={classes.applyfilter__button}
-                  onClick={handleApplyLabels}
+                  onClick={handleApplyFilter}
                 >
                   Apply
                 </button>

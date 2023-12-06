@@ -1,4 +1,5 @@
 ﻿using audio_ecommerce.Models;
+using FBSApp.SupportClasses.PasswordHasher;
 using Microsoft.EntityFrameworkCore;
 
 namespace audio_ecommerce.Data
@@ -23,7 +24,53 @@ namespace audio_ecommerce.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            byte[] salt;
 
+            #region DUMMY USERS
+            modelBuilder.Entity<User>();
+            modelBuilder.Entity<User>(user =>
+            {
+                user.HasData(
+                    new
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        Surname = "Admin",
+                        Email = "admin@gmail.com",
+                        Password = PasswordHasher.HashPassword("123", out salt),
+                        Role = "ADMIN",
+                        Salt = salt,
+                        BirthDate = DateTime.Now,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false
+
+                    });
+            });
+            #endregion
+            #region DUMMY ADDRESS
+            modelBuilder.Entity<Address>();
+            modelBuilder.Entity<Address>(address =>
+            {
+                address.HasData(
+                    new
+                    {
+                        Id = 1,
+                        Street = "Petra Petrovica 1",
+                        Country = "Serbia",
+                        ZipCode = "21000",
+                        City = "Novi Sad",
+                        PhoneNumber = "+387625463456",
+                        UserId = 1,
+                        IsShipping = true,
+                        IsBilling = true,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false
+
+                    });
+            });
+            #endregion
             #region DUMMY ARTISTS
             modelBuilder.Entity<Artist>();
             modelBuilder.Entity<Artist>(artist =>

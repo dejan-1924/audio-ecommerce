@@ -7,6 +7,7 @@ import {
   removeFromCart,
   changeAmount,
 } from "../../slices/cartSlice";
+import { useNavigate } from "react-router";
 
 let orderOptions: Array<{ value: any; label: any }> = [];
 for (let i = 1; i <= 5; i++) {
@@ -15,7 +16,7 @@ for (let i = 1; i <= 5; i++) {
 
 const ProductCard = (props: any) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const removeFromCartHandler = () => {
     dispatch(removeFromCart(props.product.id));
   };
@@ -25,11 +26,13 @@ const ProductCard = (props: any) => {
       <img
         src={props.product.imageUrl}
         className={classes.product__image}
-        onClick={() => {}}
+        onClick={() => {
+          navigate(`/shop/item/${props.product.id}`);
+        }}
       ></img>
       <div className={classes.product__topcontainer}>
         <div className={classes.product__infocontainer}>
-          <div className={classes.product__info} onClick={() => {}}>
+          <div className={classes.product__info}>
             <p className={classes.product__artist}>
               {props.product.artistName}
             </p>

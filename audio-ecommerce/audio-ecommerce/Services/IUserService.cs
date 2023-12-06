@@ -6,5 +6,7 @@ namespace audio_ecommerce.Services
     {
         int Register(NewUserDTO newUser);
         JWTokenWrapper Login(LoginDTO credentials);
+
+        UserDTO GetById(int id);
     }
 }

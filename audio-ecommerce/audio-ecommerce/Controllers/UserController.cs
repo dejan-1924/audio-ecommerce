@@ -31,5 +31,14 @@ namespace audio_ecommerce.Controllers
             return Ok(_userService.Login(credentials));
         }
 
+
+        [HttpGet("{id}", Name = "GetUser")]
+        [AllowAnonymous]
+        public ActionResult<UserDTO> GetById(int id)
+        {
+            var user = _userService.GetById(id);
+            return Ok(user);
+        }
+
     }
 }

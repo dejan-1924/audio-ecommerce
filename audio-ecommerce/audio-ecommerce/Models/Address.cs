@@ -24,6 +24,10 @@ namespace audio_ecommerce.Models
         [Required]
         public string ZipCode { get; set; }
 
+        [StringLength(20)]
+        [Required]
+        public string PhoneNumber { get; set; }
+
         [Required]
         public bool IsShipping { get; set; }
         [Required]

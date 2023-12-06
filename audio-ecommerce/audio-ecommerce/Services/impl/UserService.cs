@@ -1,4 +1,5 @@
 ﻿using audio_ecommerce.Models;
+using audio_ecommerce.Models.DTOs.Address;
 using audio_ecommerce.Models.DTOs.User;
 using audio_ecommerce.Repositories;
 using audio_ecommerce.SupportClasses.JWT;
@@ -53,6 +54,18 @@ namespace audio_ecommerce.Services.impl
                 throw new InvalidOperationException();
             }
             return _jwtGenerator.GenerateToken(user);
+        }
+
+
+        public UserDTO GetById(int id)
+        {
+            var user = _unitOfWork.UserRepository.GetById(id, u => u.Addresses);
+
+            var Addresses = _mapper.Map<List<AddressDTO>>(user.Addresses);
+
+            var _user = new UserDTO(user.Name, user.Surname, user.Email, user.Role, user.BirthDate, Addresses);
+
+            return _user;
         }
     }
 }
