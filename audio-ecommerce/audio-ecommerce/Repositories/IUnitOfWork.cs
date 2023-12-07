@@ -1,4 +1,5 @@
 ﻿using audio_ecommerce.Models;
+using System.Data;
 
 namespace audio_ecommerce.Repositories
 {
@@ -14,6 +15,8 @@ namespace audio_ecommerce.Repositories
         IGenericRepository<Artist> ArtistRepository { get; }
 
         IGenericRepository<Label> LabelRepository { get; }
+
+        IDbTransaction BeginTransaction();
         Task SaveChanges();
     }
 }

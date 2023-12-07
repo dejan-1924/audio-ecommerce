@@ -20,3 +20,8 @@
   flex-direction: column;
   gap: 0.8rem;
 }
+@media screen and (min-width: 1000px) {
+  .info__containers {
+    padding: 1rem 0rem;
+  }
+}

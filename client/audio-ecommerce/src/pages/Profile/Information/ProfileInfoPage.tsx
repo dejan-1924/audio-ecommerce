@@ -68,6 +68,7 @@ const ProfileInfoPage = () => {
                         type="checkbox"
                         defaultChecked={address.isShipping}
                       ></input>
+                      {"  "}
                       Preferred Shipping Address
                     </label>
                   </div>
@@ -77,6 +78,7 @@ const ProfileInfoPage = () => {
                         type="checkbox"
                         defaultChecked={address.isBilling}
                       ></input>
+                      {"  "}
                       Preferred Billing Address
                     </label>
                   </div>

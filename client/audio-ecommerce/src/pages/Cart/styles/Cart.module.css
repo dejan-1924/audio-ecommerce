@@ -8,3 +8,44 @@
   align-items: center;
   justify-content: center;
 }
+
+.cart_total {
+  width: 100%;
+  background-color: rgb(241, 241, 241);
+  padding: 1rem;
+  margin: 1rem 0rem;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order__button_container {
+  width: 100%;
+}
+.order__button {
+  background-color: rgb(37, 136, 202);
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.7rem;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 1000px) {
+  .cart_total {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .title {
+    padding: 1rem 0rem;
+  }
+  .order__button_container {
+    width: 200px;
+  }
+}

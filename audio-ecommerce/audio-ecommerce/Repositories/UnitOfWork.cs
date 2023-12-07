@@ -1,5 +1,7 @@
 ﻿using audio_ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 
 namespace audio_ecommerce.Repositories
 {
@@ -94,6 +96,13 @@ namespace audio_ecommerce.Repositories
                 _labelRepository ??= new GenericRepository<Label>(_dbContext);
                 return _labelRepository;
             }
+        }
+
+        public IDbTransaction BeginTransaction()
+        {
+            var transaction = _dbContext.Database.BeginTransaction();
+
+            return transaction.GetDbTransaction();
         }
 
         public async Task SaveChanges()

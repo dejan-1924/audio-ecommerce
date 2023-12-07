@@ -26,5 +26,8 @@ namespace audio_ecommerce.Models
         public DateTime ModifiedDate { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
+
+
+
     }
 }

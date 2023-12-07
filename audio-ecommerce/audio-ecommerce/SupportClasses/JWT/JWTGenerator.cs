@@ -26,7 +26,7 @@ namespace audio_ecommerce.SupportClasses.JWT
 
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role),
-                new Claim("userId", user.Id.ToString()),
+               new Claim(ClaimTypes.Name, user.Id.ToString()),
             };
 
             SecurityTokenDescriptor tokenDescriptor = new()
