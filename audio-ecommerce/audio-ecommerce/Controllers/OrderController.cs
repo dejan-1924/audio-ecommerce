@@ -23,8 +23,9 @@ namespace audio_ecommerce.Controllers
         public ActionResult<int> Create([FromBody] List<ProductCartDTO> products)
         {
 
-            int id = Int32.Parse(User.GetId());
-            Console.WriteLine(products);
+            int id = 0;
+            bool res = Int32.TryParse(User.GetId(), out id);
+
             int orderId = _orderService.Create(products, id);
             return Ok(orderId);
         }

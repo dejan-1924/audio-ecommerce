@@ -1,5 +1,6 @@
 ﻿using audio_ecommerce.Models.DTOs.Label;
 using audio_ecommerce.Services;
+using IIS_Projekat.SupportClasses.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,18 @@ namespace audio_ecommerce.Controllers
             var labels = _labelService.GetAll();
 
             return Ok(labels);
+        }
+
+
+        [HttpGet("proba", Name = "Proba")]
+        [AllowAnonymous]
+        public ActionResult<string> Proba()
+        {
+
+            string id = User.GetId();
+            Console.WriteLine(id);
+
+            return Ok(id);
         }
 
     }

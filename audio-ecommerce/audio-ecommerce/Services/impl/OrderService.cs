@@ -51,6 +51,10 @@ namespace audio_ecommerce.Services.impl
                     order.OrderItems.Add(orderItem);
 
                 }
+                else
+                {
+                    throw new InvalidOperationException("Product amount not valid!");
+                }
             }
 
             _unitOfWork.OrderRepository.Create(order);

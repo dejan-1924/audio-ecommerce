@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,8 +23,8 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "FBS API",
-        Description = "Football Statistics API",
+        Title = "E-COMMERCE API",
+        Description = "Audio E-Commerce API",
     });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -53,6 +52,22 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
+
+
+
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDbContext<DB_Context>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
+builder.Services.AddScoped<DbContext, DB_Context>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ILabelService, LabelService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
 {
     x.TokenValidationParameters = new TokenValidationParameters
@@ -66,27 +81,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
-
-
-builder.Services.AddAuthorization(options =>
-{
-
-    options.FallbackPolicy = options.DefaultPolicy;
-});
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<DB_Context>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
-builder.Services.AddScoped<DbContext, DB_Context>();
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IArtistService, ArtistService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ILabelService, LabelService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
-builder.Services.AddControllersWithViews()
-                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
 var devCorsPolicy = "devCorsPolicy";
 builder.Services.AddCors(options =>
 {

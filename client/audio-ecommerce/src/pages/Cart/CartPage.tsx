@@ -1,25 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import ProductCard from "../../components/Product/ProductCard";
 import classes from "./styles/Cart.module.css";
+import axios from "axios";
+import { AuthContext } from "../../store/auth-store";
 
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { token } = useContext(AuthContext);
   const cart = useSelector((state) => state.cart);
 
   const { cartItems } = cart;
 
   const handleOrder = () => {
     let cart: any = [];
-
+    const jwt: any = token();
     cartItems.map((item: any) => {
       cart.push({ id: item.id, amount: item.amount });
     });
 
-    console.log(cart);
+    console.log(jwt);
+    fetch("https://localhost:7049/api/Order/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+      body: JSON.stringify(cart),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        alert("Success!");
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   return (
