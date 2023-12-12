@@ -5,16 +5,17 @@ import ProductCard from "../../components/Product/ProductCard";
 import classes from "./styles/Cart.module.css";
 import axios from "axios";
 import { AuthContext } from "../../store/auth-store";
+import { clearCartItems, resetCart } from "../../slices/cartSlice";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useContext(AuthContext);
   const cart = useSelector((state) => state.cart);
-
   const { cartItems } = cart;
 
-  const handleOrder = () => {
+  const handleOrder = async () => {
     let cart: any = [];
     const jwt: any = token();
     cartItems.map((item: any) => {
@@ -22,23 +23,40 @@ const CartPage = () => {
     });
 
     console.log(jwt);
-    fetch("https://localhost:7049/api/Order/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + jwt,
-      },
-      body: JSON.stringify(cart),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        alert("Success!");
-      })
-      .catch((error) => {
-        alert(error);
+    try {
+      const result = await axios.post(
+        "https://localhost:7049/api/Order/create",
+        cart,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + jwt,
+          },
+        }
+      );
+      toast.success("You have successfully placed an order!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
+      dispatch(clearCartItems());
+    } catch (error) {
+      toast.error("Selected item amount is not available!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (

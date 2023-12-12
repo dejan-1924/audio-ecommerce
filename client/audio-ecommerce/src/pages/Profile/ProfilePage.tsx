@@ -22,7 +22,7 @@ const ProfilePage = () => {
       </div>
       <div className={classes.profile__items}>
         <div className={classes.profile__item}>
-          <div className={classes.profile__item_title}>My customer data</div>
+          <div className={classes.profile__item_title}>My Customer Data</div>
           <div className={classes.profile__item_body}>
             <button
               className={classes.profile__item_button}
@@ -48,7 +48,7 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className={classes.profile__item}>
-          <div className={classes.profile__item_title}>My addresses</div>
+          <div className={classes.profile__item_title}>My Addresses</div>
           <div className={classes.profile__item_body}>
             <button className={classes.profile__item_button}>
               Show addresses
@@ -56,7 +56,7 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className={classes.profile__item}>
-          <div className={classes.profile__item_title}>My wishlist</div>
+          <div className={classes.profile__item_title}>My Wishlist</div>
           <div className={classes.profile__item_body}>
             <button className={classes.profile__item_button}>
               Show wishlist

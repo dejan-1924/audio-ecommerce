@@ -2,6 +2,7 @@ using audio_ecommerce.Data;
 using audio_ecommerce.Repositories;
 using audio_ecommerce.Services;
 using audio_ecommerce.Services.impl;
+using audio_ecommerce.SupportClasses.GlobalExceptionHandler;
 using audio_ecommerce.SupportClasses.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -109,5 +110,6 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+app.AddGlobalExceptionHandler();
 
 app.Run();

@@ -3,6 +3,7 @@ using audio_ecommerce.Models.DTOs.Artist;
 using audio_ecommerce.Models.DTOs.Pagination;
 using audio_ecommerce.Models.DTOs.Product;
 using audio_ecommerce.Repositories;
+using audio_ecommerce.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ namespace audio_ecommerce.Services.impl
             Product? product = _unitOfWork.ProductRepository.GetById(productId);
             if (product == null)
             {
-                throw new InvalidOperationException("Product with sent ID does not exist!");
+                throw new NotFoundException("Product with sent ID does not exist!");
             }
             Console.WriteLine(product.Name);
             _unitOfWork.ProductRepository.Delete(product);
@@ -107,7 +108,7 @@ namespace audio_ecommerce.Services.impl
             Product? product = _unitOfWork.ProductRepository.GetById(id, p => p.Artist, p => p.Label, p => p.Format);
             if (product == null)
             {
-                throw new InvalidOperationException("Product with sent ID does not exist!");
+                throw new NotFoundException("Product with sent ID does not exist!");
             }
             return _mapper.Map<ProductDTO>(product);
         }

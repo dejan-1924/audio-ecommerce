@@ -6,6 +6,7 @@ const Product = (props: any) => {
   const navigate = useNavigate();
 
   const navigateToProduct = (id: number) => {
+    window.scrollTo(0, 0);
     navigate(`/shop/item/${id}`);
   };
 

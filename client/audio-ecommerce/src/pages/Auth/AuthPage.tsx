@@ -8,7 +8,8 @@ import classes from "./styles/AuthPage.module.css";
 import Login from "../../components/Auth/Login";
 import Register from "../../components/Auth/Register";
 import { AuthContext } from "../../store/auth-store";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const LoginPage = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
@@ -24,10 +25,27 @@ const LoginPage = () => {
           email: values.email,
         }
       );
-      alert("SUCCES!");
-      navigate("/login");
+      toast.success("You registered successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (err: any) {
-      alert("ERROR!");
+      toast.error("There is already an account with that email address!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -39,17 +57,38 @@ const LoginPage = () => {
       });
       console.log(result.data);
       authCtx?.login(result.data.token);
+      toast.success("You are logged in!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       navigate("/shop");
     } catch (err: any) {
-      alert("ERROR!");
+      toast.error("Wrong credentials!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   return (
-    <div className={classes.auth}>
-      <Login onLogin={handleLogin}></Login>
-      <Register onRegister={handleRegister}></Register>
-    </div>
+    <>
+      <div className={classes.auth}>
+        <Login onLogin={handleLogin}></Login>
+        <Register onRegister={handleRegister}></Register>
+      </div>
+    </>
   );
 };
 

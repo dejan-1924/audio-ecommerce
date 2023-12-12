@@ -2,6 +2,7 @@
 using audio_ecommerce.Models.DTOs.Address;
 using audio_ecommerce.Models.DTOs.User;
 using audio_ecommerce.Repositories;
+using audio_ecommerce.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using audio_ecommerce.SupportClasses.JWT;
 using AutoMapper;
 using FBSApp.SupportClasses.PasswordHasher;
@@ -47,11 +48,11 @@ namespace audio_ecommerce.Services.impl
             var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == credentials.Email);
             if (user == null)
             {
-                throw new InvalidOperationException($"There is not user in database with email: {credentials.Email}.");
+                throw new NotFoundException("There is already an user with this email address.");
             }
             if (!PasswordHasher.VerifyPassword(credentials.Password, user.Password, user.Salt))
             {
-                throw new InvalidOperationException();
+                throw new BadRequestException("Error");
             }
             return _jwtGenerator.GenerateToken(user);
         }
