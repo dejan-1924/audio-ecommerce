@@ -5,17 +5,17 @@
   padding: 1rem;
 }
 .info__container {
-  border: 1px solid rgb(192, 190, 190);
+  border: 1px solid var(--lightGrey);
 }
 .info__container_title {
-  background-color: rgb(245, 243, 243);
+  background-color: var(--lightestGrey);
   padding: 2rem;
   font-size: 1.2rem;
 }
 .info__container_body {
   padding: 2rem;
   font-size: 0.9rem;
-  color: rgb(87, 86, 86);
+  color: var(--textGrey);
   display: flex;
   flex-direction: column;
   gap: 0.8rem;

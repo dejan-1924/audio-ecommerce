@@ -1,5 +1,5 @@
 .footer {
-  background-color: rgb(239, 237, 237);
+  background-color: var(--lightestGrey);
   min-height: 700px;
   display: flex;
   align-items: center;

@@ -34,7 +34,7 @@
 }
 .searchinfo__productnumber {
   font-weight: 400;
-  color: rgb(96, 95, 95);
+  color: var(--textGrey);
 }
 
 .noitems__container {
@@ -50,7 +50,7 @@
 }
 
 .filterbutton {
-  background-color: rgb(34, 34, 34);
+  background-color: var(--darkGrey);
   color: white;
   border: none;
   border-radius: 0.3rem;
@@ -62,8 +62,8 @@
 }
 
 .orderbutton {
-  background-color: rgb(230, 228, 228);
-  color: rgb(51, 51, 51);
+  background-color: var(--lightGrey);
+  color: var(--darkGrey);
   border: none;
   border-radius: 0.3rem;
   padding: 0.2rem 0.8rem;
@@ -78,24 +78,25 @@
 .filter__container {
   display: flex;
 }
-.ordering ul {
-  list-style-type: none;
-}
-.ordering ul li {
-  padding: 0.5rem;
-  min-width: 150px;
-  font-size: 0.9rem;
-  border-top: 1px solid rgb(225, 223, 223);
-  border-left: 1px solid rgb(225, 223, 223);
-}
 
 .ordering ul li:hover {
-  background-color: rgb(50, 95, 199);
+  background-color: var(--lightGrey);
   color: white;
 }
 
+.ordering ul li {
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  border-top: 1px solid var(--lightGrey);
+  font-size: 0.9rem;
+}
+
+.ordering ul li:last-of-type {
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  border-bottom: 1px solid var(--lightGrey);
+}
+
 .ordering__selected {
-  background-color: rgb(50, 95, 199);
+  background-color: var(--blue);
   color: white;
 }
 .filters__container_FS {
@@ -106,7 +107,7 @@
 }
 
 .queryreset__button {
-  background-color: rgb(235, 233, 233);
+  background-color: var(--lightestGrey);
   color: grey;
   padding: 0.3rem 1rem;
   border: none;

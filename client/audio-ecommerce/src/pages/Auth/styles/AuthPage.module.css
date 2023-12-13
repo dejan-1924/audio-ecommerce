@@ -15,7 +15,7 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background-color: rgb(248, 247, 247);
+  background-color: var(--lightestGrey);
   border-radius: 0.3rem;
 }
 
@@ -26,12 +26,12 @@
 .input {
   width: 100%;
   background-color: transparent;
-  border: 1px solid rgb(133, 133, 133);
+  border: 1px solid var(--inputGrey);
   padding: 0.9rem;
 }
 
 .login__button {
-  background-color: rgb(0, 132, 255);
+  background-color: var(--blue);
   padding: 0.9rem;
   color: white;
   border: none;

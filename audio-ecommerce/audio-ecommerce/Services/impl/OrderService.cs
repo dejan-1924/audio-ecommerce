@@ -37,10 +37,12 @@ namespace audio_ecommerce.Services.impl
 
             foreach (var item in items)
             {
-                if (item.Amount < _unitOfWork.ProductRepository.GetById(item.Id).Amount)
+
+                Product product = _unitOfWork.ProductRepository.GetById(item.Id, a => a.Artist);
+
+                if (item.Amount <= _unitOfWork.ProductRepository.GetById(item.Id).Amount)
                 {
 
-                    Product product = _unitOfWork.ProductRepository.GetById(item.Id);
                     var orderItem = new OrderItem
                     {
                         Product = product,
@@ -53,7 +55,8 @@ namespace audio_ecommerce.Services.impl
                 }
                 else
                 {
-                    throw new InvalidOperationException("Product amount not valid!");
+                    string message = product.Artist.Name + " - " + product.Name + " is not available in selected amount. There is only " + product.Amount + " copies left in stock.";
+                    throw new InvalidOperationException(message);
                 }
             }
 

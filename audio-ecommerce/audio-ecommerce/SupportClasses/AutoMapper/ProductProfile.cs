@@ -13,7 +13,7 @@ public class ProductProfile : Profile
             .ForMember(p => p.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
             .ForMember(p => p.Label, opt => opt.MapFrom(src => src.Label.Name))
             .ForMember(p => p.Format, opt => opt.MapFrom(src => src.Format.Name)
-        );
+        ).ForMember(p => p.InStock, opt => opt.MapFrom(src => src.Amount));
     }
 }
 

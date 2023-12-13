@@ -1,5 +1,5 @@
 .navbarContainer {
-  background-color: rgb(45, 45, 45);
+  background-color: var(--darkGrey);
   border: none;
   margin: 0rem;
 }
@@ -40,7 +40,7 @@
   top: 0;
   left: 0;
   z-index: 100;
-  background-color: rgb(18, 18, 18);
+  background-color: rgb(36, 35, 35);
   padding: 1rem;
   color: white;
 }
@@ -58,6 +58,7 @@
   padding: 0.8rem;
   border: 0px;
   border-radius: 0.3rem;
+  cursor: pointer;
 }
 .sidemenu__body {
   display: flex;
@@ -77,6 +78,7 @@
 .sidemenu__link {
   text-decoration: none;
   color: white;
+  cursor: pointer;
 }
 
 .backdrop {

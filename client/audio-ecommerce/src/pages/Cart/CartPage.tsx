@@ -46,7 +46,7 @@ const CartPage = () => {
       });
       dispatch(clearCartItems());
     } catch (error) {
-      toast.error("Selected item amount is not available!", {
+      toast.error(error.response.data.message, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,
