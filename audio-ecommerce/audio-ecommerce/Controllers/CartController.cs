@@ -29,19 +29,39 @@ namespace audio_ecommerce.Controllers
             var cart = _cartService.GetCart(id);
             return Ok(cart);
         }
-
-
-        [HttpPost("addItem", Name = "AddItem")]
+        [HttpGet("numberOfItems", Name = "GetNumberOfItemsInCart")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<int> Create([FromBody] int productId)
+        public ActionResult<int> GetNumberOfItemsInCart()
         {
 
             int id = 0;
             bool res = Int32.TryParse(User.GetId(), out id);
 
-            bool isAdded = _cartService.AddItemToCart(productId, id);
-            return Ok(isAdded);
+            var cartItems = _cartService.GetCart(id).Items.Count();
+            return Ok(cartItems);
         }
 
+        [HttpPost("addItem", Name = "AddItem")]
+        [Authorize(Roles = "ADMIN")]
+        public ActionResult<int> Create([FromBody] AddToCartItemDTO addToCartItem)
+        {
+
+            int id = 0;
+            bool res = Int32.TryParse(User.GetId(), out id);
+
+            bool isAdded = _cartService.AddItemToCart(addToCartItem.Id, addToCartItem.Amount, id);
+            return Ok(isAdded);
+        }
+        [HttpDelete("deleteItem", Name = "DeleteItem")]
+        [Authorize(Roles = "ADMIN")]
+        public ActionResult<bool> RemoveItemFromCart([FromBody] int productId)
+        {
+
+            int id = 0;
+            bool res = Int32.TryParse(User.GetId(), out id);
+
+            bool isRemoved = _cartService.RemoveItemFromCart(productId, id);
+            return Ok(isRemoved);
+        }
     }
 }
