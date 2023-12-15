@@ -376,6 +376,23 @@ namespace audio_ecommerce.Data
                     });
             });
             #endregion
+            #region DUMMY CART
+            modelBuilder.Entity<Cart>();
+            modelBuilder.Entity<Cart>(cart =>
+            {
+                cart.HasData(
+                    new
+                    {
+                        Id = 1,
+                        UserId = 1,
+                        Total = 0.00,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false
+
+                    });
+            });
+            #endregion
 
         }
     }

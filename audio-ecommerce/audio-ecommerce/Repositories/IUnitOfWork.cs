@@ -16,6 +16,7 @@ namespace audio_ecommerce.Repositories
 
         IGenericRepository<Label> LabelRepository { get; }
 
+        IGenericRepository<Cart> CartRepository { get; }
         IDbTransaction BeginTransaction();
         Task SaveChanges();
     }

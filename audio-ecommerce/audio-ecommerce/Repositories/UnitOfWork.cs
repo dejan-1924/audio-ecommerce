@@ -15,7 +15,7 @@ namespace audio_ecommerce.Repositories
         private IGenericRepository<OrderItem> _orderItemRepository;
         private IGenericRepository<Address> _addressRepository;
         private IGenericRepository<Label> _labelRepository;
-
+        private IGenericRepository<Cart> _cartRepository;
 
         private DbContext _dbContext;
 
@@ -97,7 +97,14 @@ namespace audio_ecommerce.Repositories
                 return _labelRepository;
             }
         }
-
+        public IGenericRepository<Cart> CartRepository
+        {
+            get
+            {
+                _cartRepository ??= new GenericRepository<Cart>(_dbContext);
+                return _cartRepository;
+            }
+        }
         public IDbTransaction BeginTransaction()
         {
             var transaction = _dbContext.Database.BeginTransaction();

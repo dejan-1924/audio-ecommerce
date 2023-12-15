@@ -23,6 +23,8 @@ namespace audio_ecommerce.Models
         public string Role { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; }
+        public ICollection<Cart> ShoppingCarts { get; set; }
+
         public DateTime BirthDate { get; set; }
         [Required]
         public DateTime CreatedDate { get; set; }

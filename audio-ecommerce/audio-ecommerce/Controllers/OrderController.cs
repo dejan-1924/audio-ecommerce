@@ -19,7 +19,7 @@ namespace audio_ecommerce.Controllers
         }
 
         [HttpPost("create", Name = "CreateOrder")]
-        [AllowAnonymous]
+        [Authorize(Roles = "USER")]
         public ActionResult<int> Create([FromBody] List<ProductCartDTO> products)
         {
 

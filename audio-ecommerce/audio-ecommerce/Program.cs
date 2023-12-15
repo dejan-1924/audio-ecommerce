@@ -67,6 +67,7 @@ builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ILabelService, LabelService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
