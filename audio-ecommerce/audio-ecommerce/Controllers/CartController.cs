@@ -18,9 +18,9 @@ namespace audio_ecommerce.Controllers
             this._cartService = cartService;
         }
 
-        [HttpPost(Name = "GetCart")]
+        [HttpGet(Name = "GetCart")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<IEnumerable<CartDTO>> GetCart()
+        public ActionResult<CartDTO> GetCart()
         {
 
             int id = 0;
@@ -43,25 +43,25 @@ namespace audio_ecommerce.Controllers
 
         [HttpPost("addItem", Name = "AddItem")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<int> Create([FromBody] AddToCartItemDTO addToCartItem)
+        public ActionResult<CartDTO> AddItem([FromBody] AddToCartItemDTO addToCartItem)
         {
 
             int id = 0;
             bool res = Int32.TryParse(User.GetId(), out id);
 
-            bool isAdded = _cartService.AddItemToCart(addToCartItem.Id, addToCartItem.Amount, id);
-            return Ok(isAdded);
+            var newCart = _cartService.AddItemToCart(addToCartItem.Id, addToCartItem.Amount, addToCartItem.isReplace, id);
+            return Ok(newCart);
         }
-        [HttpDelete("deleteItem", Name = "DeleteItem")]
+        [HttpDelete("deleteItem/{productId}", Name = "DeleteItem")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<bool> RemoveItemFromCart([FromBody] int productId)
+        public ActionResult<CartDTO> RemoveItemFromCart(int productId)
         {
 
             int id = 0;
             bool res = Int32.TryParse(User.GetId(), out id);
 
-            bool isRemoved = _cartService.RemoveItemFromCart(productId, id);
-            return Ok(isRemoved);
+            var newCart = _cartService.RemoveItemFromCart(productId, id);
+            return Ok(newCart);
         }
     }
 }

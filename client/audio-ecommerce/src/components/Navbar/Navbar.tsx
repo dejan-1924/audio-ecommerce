@@ -27,7 +27,7 @@ const Navbar = () => {
   const queryRef = useRef();
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-
+  const shopCtx = useContext(ShopContext);
   const handleOpenSideMenu = () => {
     setIsSideMenuOpen(true);
   };
@@ -106,7 +106,10 @@ const Navbar = () => {
           )}
 
           <Link to="/cart" className={classes.navbar__item}>
-            <Badge badgeContent={cartItems.length} color="primary">
+            <Badge
+              badgeContent={shopCtx?.numberOfItemsInCart()}
+              color="primary"
+            >
               <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
           </Link>

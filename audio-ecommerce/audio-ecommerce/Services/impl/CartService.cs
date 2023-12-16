@@ -20,12 +20,12 @@ namespace audio_ecommerce.Services.impl
         }
 
 
-        public bool AddItemToCart(int productId, int quantity, int userId)
+        public CartDTO AddItemToCart(int productId, int quantity, bool isReplace, int userId)
         {
             int cartId = _unitOfWork.CartRepository.GetAll().Where(c => !c.IsDeleted).FirstOrDefault(c => c.UserId == userId).Id;
 
 
-            var cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).ThenInclude(ci => ci.Product).SingleOrDefault(c => c.Id == cartId && !c.IsDeleted);
+            var cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).ThenInclude(ci => ci.Product).FirstOrDefault(c => c.Id == cartId && !c.IsDeleted);
             if (cart == null)
             {
                 throw new NotFoundException("Cart with sent ID does not exist!");
@@ -45,7 +45,7 @@ namespace audio_ecommerce.Services.impl
 
             }
 
-            var existingCartItem = cart.CartItems.SingleOrDefault(ci => ci.ProductId == productId);
+            var existingCartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
 
 
             if (quantity > product.Amount)
@@ -56,8 +56,12 @@ namespace audio_ecommerce.Services.impl
 
             if (existingCartItem != null)
             {
+                if (!isReplace)
+                {
+                    existingCartItem.Quantity += quantity;
+                }
+                else { existingCartItem.Quantity = quantity; }
 
-                existingCartItem.Quantity += quantity;
             }
             else
             {
@@ -76,32 +80,67 @@ namespace audio_ecommerce.Services.impl
 
 
 
+            double total = 0;
+            foreach (var item in cart.CartItems)
+            {
+
+                var productPrice = _unitOfWork.ProductRepository.GetById(item.ProductId).Price;
+                total += productPrice * item.Quantity;
+            }
+            cart.Total = total;
+
             cart.ModifiedDate = DateTime.Now;
 
             _unitOfWork.SaveChanges();
 
-            return true;
+
+            return GetCartDTO(cartId);
         }
 
 
 
 
-        public bool RemoveItemFromCart(int productId, int userId)
+        public CartDTO RemoveItemFromCart(int productId, int userId)
         {
             int cartId = _unitOfWork.CartRepository.GetAll().Where(c => !c.IsDeleted).FirstOrDefault(c => c.UserId == userId).Id;
 
 
-            var cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).ThenInclude(ci => ci.Product).SingleOrDefault(c => c.Id == cartId && !c.IsDeleted);
+            var cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).ThenInclude(ci => ci.Product).FirstOrDefault(c => c.Id == cartId && !c.IsDeleted);
 
 
             var cartItem = cart.CartItems.FirstOrDefault(c => c.ProductId == productId);
 
             cart.CartItems.Remove(cartItem);
 
+            var product = _unitOfWork.ProductRepository.GetAll().FirstOrDefault(c => c.Id.Equals(productId));
+
+
+            cart.Total -= product.Price * cartItem.Quantity;
+
             _unitOfWork.SaveChanges();
 
-            return true;
+            return GetCartDTO(cartId);
 
+        }
+
+
+        private CartDTO GetCartDTO(int cartId)
+        {
+
+
+            var cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).ThenInclude(ci => ci.Product).FirstOrDefault(c => c.Id == cartId && !c.IsDeleted);
+
+            var CartItems = new List<CartItemDTO>();
+
+            foreach (var ci in cart.CartItems)
+            {
+                var product = _unitOfWork.ProductRepository.GetById(ci.ProductId, p => p.Artist);
+
+                CartItems.Add(new CartItemDTO(product.Id, product.Name, product.Artist.Name,
+                     ci.Quantity, product.Price, product.ImageUrl, product.Amount));
+            }
+
+            return new CartDTO(CartItems, cart.Total);
         }
 
         public CartDTO GetCart(int userId)

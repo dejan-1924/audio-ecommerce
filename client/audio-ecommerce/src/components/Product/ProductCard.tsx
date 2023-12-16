@@ -25,6 +25,7 @@ const ProductCard = (props: any) => {
   const removeFromCartHandler = () => {
     dispatch(removeFromCart(props.product.id));
   };
+
   return (
     <>
       {props.product.inStock < 1 && (
@@ -106,19 +107,17 @@ const ProductCard = (props: any) => {
                       }}
                       options={createOptions(props.product.inStock)}
                       onChange={(event: any) =>
-                        dispatch(
-                          changeAmount({
-                            id: props.product.id,
-                            amount: event.value,
-                          })
-                        )
+                        props.changeAmount({
+                          id: props.product.id,
+                          amount: event.value,
+                        })
                       }
                     />
                   )}
 
                   <p
                     className={classes.remove__item}
-                    onClick={removeFromCartHandler}
+                    onClick={() => props.remove(props.product.id)}
                   >
                     Remove item
                   </p>

@@ -11,7 +11,7 @@ namespace audio_ecommerce.Models
         public int Id { get; set; }
 
         [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         public int ProductId { get; set; }
         [ForeignKey("CartId")]

@@ -6,9 +6,9 @@ namespace audio_ecommerce.Services
     {
 
 
-        bool AddItemToCart(int productId, int quantity, int userId);
+        CartDTO AddItemToCart(int productId, int quantity, bool isReplace, int userId);
 
-        bool RemoveItemFromCart(int productId, int userId);
+        CartDTO RemoveItemFromCart(int productId, int userId);
 
         CartDTO GetCart(int userId);
 

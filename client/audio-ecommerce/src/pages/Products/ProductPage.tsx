@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./styles/ProductPage.module.css";
 import { useNavigate, useParams } from "react-router";
 import { useGetProductByIdQuery } from "../../hooks/productHooks";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
+import axios from "axios";
+import { ShopContext } from "../../store/shop-store";
 
 const ProductPage = () => {
   const params = useParams();
@@ -13,6 +15,25 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, amount: 1 }));
+  };
+  const shopCtx = useContext(ShopContext);
+
+  const handleAddItemToCart = async (productId: number) => {
+    try {
+      const response = await axios.post(
+        "https://localhost:7049/api/Cart/addItem",
+        { id: productId, amount: 1, isReplace: false },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      shopCtx?.getNumberOfItemsInCart();
+    } catch (error) {
+      console.error(error.response.data.message);
+    }
   };
 
   return (
@@ -34,8 +55,13 @@ const ProductPage = () => {
             <p className={classes.product__price}>{product.price}€</p>
             <div className={classes.product__actions}>
               <button
-                className={classes.product__cartbutton}
-                onClick={addToCartHandler}
+                className={
+                  product.inStock > 0
+                    ? classes.product__cartbutton
+                    : classes.product__cartbutton_disabled
+                }
+                disabled={!(product.inStock > 0)}
+                onClick={() => handleAddItemToCart(product.id)}
               >
                 Add to cart
               </button>

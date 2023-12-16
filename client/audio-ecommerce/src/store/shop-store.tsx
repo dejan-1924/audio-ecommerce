@@ -7,6 +7,7 @@ import {
 } from "react";
 import { AuthContext } from "./auth-store";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export interface IShopContext {
   handleSetSearchQuery: (query: string) => void;
@@ -31,6 +32,8 @@ export interface IShopContext {
   setFilters: () => void;
   getFilters: () => Array<any>;
   isLabelChecked: (id: number) => boolean;
+  getNumberOfItemsInCart: () => number;
+  numberOfItemsInCart: () => number;
 }
 
 export const ShopContext = createContext<IShopContext | null>(null);
@@ -49,6 +52,7 @@ export const ShopContextProvider = (props: any) => {
     labelIds: [],
   });
 
+  const [numberOfItems, setNumberOfItems] = useState(null);
   const [ordering, setOrdering] = useState<any>({
     value: "REL",
     label: "Relevance",
@@ -199,6 +203,33 @@ export const ShopContextProvider = (props: any) => {
     return selectedFilters;
   };
 
+  useEffect(() => {
+    getNumberOfItemsInCart();
+  }, [numberOfItems]);
+
+  const getNumberOfItemsInCart = async () => {
+    console.log("probaj");
+    try {
+      const { data: response } = await axios.get(
+        "https://localhost:7049/api/Cart/numberOfItems",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response);
+      setNumberOfItems(response);
+    } catch (error) {
+      console.error(error.response.data.message);
+    }
+  };
+
+  const numberOfItemsInCart = () => {
+    return numberOfItems;
+  };
+
   const contextValue: IShopContext = {
     handleSetSearchQuery,
     handleGetSearchQuery,
@@ -222,6 +253,8 @@ export const ShopContextProvider = (props: any) => {
     handleGetSelectedLabels,
     isLabelChecked,
     resetLabels,
+    getNumberOfItemsInCart,
+    numberOfItemsInCart,
   };
 
   return (

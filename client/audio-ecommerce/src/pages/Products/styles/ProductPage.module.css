@@ -61,6 +61,18 @@
   cursor: pointer;
 }
 
+.product__cartbutton_disabled {
+  background-color: var(--blue);
+  opacity: 0.6;
+  cursor: not-allowed;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
 @media screen and (min-width: 500px) {
   .product {
     flex-direction: row;
