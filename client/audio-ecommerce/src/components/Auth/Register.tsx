@@ -5,23 +5,43 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useContext } from "react";
 import classes from "../../pages/Auth/styles/AuthPage.module.css";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Register = (props: any) => {
   const navigate = useNavigate();
 
+  const schema = z
+    .object({
+      firstName: z
+        .string()
+        .min(1, { message: "Firstname is required" })
+        .max(30),
+      lastName: z.string().min(1, { message: "Lastname is required" }).max(30),
+      email: z
+        .string()
+        .email({
+          message: "Please enter a valid email-address",
+        })
+        .min(1, { message: "Email is required" }),
+      password: z
+        .string()
+        .min(8, { message: "Password must be atleast 8 characters" })
+        .regex(
+          new RegExp(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/)
+        ),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
+
   const {
-    control,
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-    },
-  });
+  } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = async (values: any) => {
     props.onRegister({
@@ -39,47 +59,37 @@ const Register = (props: any) => {
         <input
           className={classes.input}
           placeholder="Firstname*"
-          {...register("firstName", {
-            required: "Required",
-            maxLength: 30,
-            minLength: 1,
-          })}
+          {...register("firstName")}
         />
-        {errors.firstName && errors.firstName.type === "maxLength" && (
-          <span>Firstname must be shorter than 30 characters.</span>
-        )}
-        {errors.firstName && errors.firstName.type === "minLength" && (
-          <span>Firstname must not be empty.</span>
+        {errors.firstName && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.firstName?.message}
+          </span>
         )}
         <input
           className={classes.input}
           placeholder="Lastname*"
-          {...register("lastName", {
-            required: "Required",
-            maxLength: 30,
-            minLength: 1,
-          })}
+          {...register("lastName")}
         />
-        {errors.lastName && errors.lastName.type === "maxLength" && (
-          <span>Lastname must be shorter than 30 characters.</span>
-        )}
-        {errors.lastName && errors.lastName.type === "minLength" && (
-          <span>Lastname must not be empty.</span>
+        {errors.lastName && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.lastName?.message}
+          </span>
         )}
         <input
           className={classes.input}
           placeholder="E-Mail*"
           type="email"
-          {...register("email", {
-            required: "Required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "invalid email address",
-            },
-          })}
+          {...register("email")}
         />
-        {errors.email && errors.email.message}
-
+        {errors.email && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.email?.message}
+          </span>
+        )}
         <input
           className={classes.input}
           placeholder="Password*"
@@ -88,8 +98,24 @@ const Register = (props: any) => {
             required: "Required",
           })}
         />
-        {errors.password && <span>{errors.password.message}.</span>}
-
+        {errors.password && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.password?.message}
+          </span>
+        )}
+        <input
+          className={classes.input}
+          placeholder="Confirm Password*"
+          type="password"
+          {...register("confirmPassword")}
+        />
+        {errors.confirmPassword && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.confirmPassword?.message}
+          </span>
+        )}
         <button type="submit" className={classes.login__button}>
           Register
         </button>
