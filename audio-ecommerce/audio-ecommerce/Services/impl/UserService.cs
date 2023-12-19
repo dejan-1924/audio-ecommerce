@@ -48,11 +48,11 @@ namespace audio_ecommerce.Services.impl
             var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == credentials.Email);
             if (user == null)
             {
-                throw new NotFoundException("There is already an user with this email address.");
+                throw new NotFoundException("The email - password combination you have entered in not valid.");
             }
             if (!PasswordHasher.VerifyPassword(credentials.Password, user.Password, user.Salt))
             {
-                throw new BadRequestException("Error");
+                throw new BadRequestException("The email - password combination you have entered in not valid.");
             }
             return _jwtGenerator.GenerateToken(user);
         }

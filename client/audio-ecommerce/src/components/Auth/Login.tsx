@@ -5,15 +5,27 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useContext } from "react";
 import classes from "../../pages/Auth/styles/AuthPage.module.css";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Login = (props: any) => {
   const navigate = useNavigate();
+
+  const schema = z.object({
+    email: z
+      .string()
+      .email({
+        message: "Please enter a valid email-address",
+      })
+      .min(1, { message: "Please enter your email" }),
+    password: z.string().min(1, { message: "Please enter your password" }),
+  });
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = async (values: any) => {
     props.onLogin({ email: values.email, password: values.password });
@@ -27,24 +39,26 @@ const Login = (props: any) => {
           className={classes.input}
           placeholder="E-mail address"
           type="email"
-          {...register("email", {
-            required: "Required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "invalid email address",
-            },
-          })}
+          {...register("email")}
         />
-
+        {errors.email && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.email?.message}
+          </span>
+        )}
         <input
           className={classes.input}
           placeholder="Password"
           type="password"
-          {...register("password", {
-            required: "Required",
-          })}
+          {...register("password")}
         />
-
+        {errors.password && (
+          <span className={classes.form__validation_error}>
+            {" "}
+            {errors.password?.message}
+          </span>
+        )}
         <button type="submit" className={classes.login__button}>
           Login
         </button>
