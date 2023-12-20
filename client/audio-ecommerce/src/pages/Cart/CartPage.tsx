@@ -8,6 +8,7 @@ import { AuthContext } from "../../store/auth-store";
 import { clearCartItems, resetCart } from "../../slices/cartSlice";
 import { toast } from "react-toastify";
 import { ShopContext } from "../../store/shop-store";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -15,34 +16,29 @@ const CartPage = () => {
   const { token } = useContext(AuthContext);
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [datas, setData] = useState([]);
   const shopCtx = useContext(ShopContext);
+  const queryClient = useQueryClient();
+  const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const jwt = token();
-      try {
-        const { data: response } = await axios.get(
-          "https://localhost:7049/api/Cart",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        );
-
-        setData(response);
-      } catch (error) {
-        console.error(error.response.data.message);
+  const fetchCart = async () => {
+    const { data: response } = await axios.get(
+      "https://localhost:7049/api/Cart",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
       }
-      setLoading(false);
-    };
+    );
 
-    fetchData();
-  }, []);
+    return response;
+  };
+
+  const { data, isLoading } = useQuery({
+    queryFn: () => fetchCart(),
+    queryKey: ["cartItems"],
+  });
 
   const handleOrder = async () => {
     let cart: any = [];
@@ -88,83 +84,44 @@ const CartPage = () => {
     }
   };
 
-  const handleRemoveItemFromCart = async (itemId: number) => {
-    setLoading(true);
-    try {
-      const { data: response } = await axios.delete(
-        "https://localhost:7049/api/Cart/deleteItem/" + itemId,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      setData(response);
-      shopCtx?.getNumberOfItemsInCart();
-    } catch (error) {
-      console.error(error.response.data.message);
-    }
-    setLoading(false);
-  };
-
-  const handleChangeItemAmount = async (item: any) => {
-    const addToCartItem = { id: item.id, amount: item.amount, isReplace: true };
-    try {
-      const { data: response } = await axios.post(
-        "https://localhost:7049/api/Cart/addItem",
-        addToCartItem,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      setData(response);
-      shopCtx?.getNumberOfItemsInCart();
-    } catch (error) {
-      console.error(error.response.data.message);
-    }
-  };
-
   return (
     <div className={classes.cart}>
       <div className={classes.title}>
         <h3>My cart</h3>
       </div>
-      {!loading ? (
+      {authCtx?.isLoggedIn ? (
         <>
-          {data.items?.length > 0 ? (
-            <div>
-              {data.items?.map((cartItem) => (
-                <ProductCard
-                  product={cartItem}
-                  page="cart"
-                  remove={handleRemoveItemFromCart}
-                  changeAmount={handleChangeItemAmount}
-                ></ProductCard>
-              ))}
-              <div className={classes.cart_total}>
-                <div>Total price : {data.total}€</div>
-                <div className={classes.order__button_container}>
-                  <button
-                    className={classes.order__button}
-                    onClick={handleOrder}
-                  >
-                    Order
-                  </button>
+          {!isLoading ? (
+            <>
+              {data.items?.length > 0 ? (
+                <div>
+                  {data.items?.map((cartItem) => (
+                    <ProductCard product={cartItem} page="cart"></ProductCard>
+                  ))}
+                  <div className={classes.cart_total}>
+                    <div>Total price : {data.total}€</div>
+                    <div className={classes.order__button_container}>
+                      <button
+                        className={classes.order__button}
+                        onClick={handleOrder}
+                      >
+                        Order
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ) : (
+                <div className={classes.emptycart__container}>
+                  Your cart is empty.
+                </div>
+              )}
+            </>
           ) : (
-            <div className={classes.emptycart__container}>
-              Your cart is empty.
-            </div>
+            <div>Loading ...</div>
           )}
         </>
       ) : (
-        <div>Loading ...</div>
+        <div>Log in to see your cart.</div>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import classes from "./styles/ProductPage.module.css";
 import { useNavigate, useParams } from "react-router";
 import { useGetProductByIdQuery } from "../../hooks/productHooks";
@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import axios from "axios";
 import { ShopContext } from "../../store/shop-store";
+import { CircularProgress } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ProductPage = () => {
   const params = useParams();
@@ -17,8 +19,10 @@ const ProductPage = () => {
     dispatch(addToCart({ ...product, amount: 1 }));
   };
   const shopCtx = useContext(ShopContext);
-
+  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
   const handleAddItemToCart = async (productId: number) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://localhost:7049/api/Cart/addItem",
@@ -30,10 +34,14 @@ const ProductPage = () => {
           },
         }
       );
+
       shopCtx?.getNumberOfItemsInCart();
+
+      shopCtx?.handleOpenCartModal();
     } catch (error) {
       console.error(error.response.data.message);
     }
+    setLoading(false);
   };
 
   return (
@@ -53,18 +61,33 @@ const ProductPage = () => {
               <p className={classes.product__title}>{product.name}</p>
             </div>
             <p className={classes.product__price}>{product.price}€</p>
+            {product.inStock < 1 ? (
+              <p className={classes.product__soldout}>
+                Product is currently sold out.
+              </p>
+            ) : (
+              <p>Only {product.inStock} left in stock</p>
+            )}
             <div className={classes.product__actions}>
-              <button
-                className={
-                  product.inStock > 0
-                    ? classes.product__cartbutton
-                    : classes.product__cartbutton_disabled
-                }
-                disabled={!(product.inStock > 0)}
-                onClick={() => handleAddItemToCart(product.id)}
-              >
-                Add to cart
-              </button>
+              {loading ? (
+                <button className={classes.product__cartbutton}>
+                  <CircularProgress size="1rem" style={{ color: "white" }} />
+                </button>
+              ) : (
+                <button
+                  className={
+                    product.inStock > 0
+                      ? classes.product__cartbutton
+                      : classes.product__cartbutton_disabled
+                  }
+                  disabled={!(product.inStock > 0)}
+                  onClick={() => {
+                    handleAddItemToCart(product.id);
+                  }}
+                >
+                  Add to cart
+                </button>
+              )}
             </div>
             <p>Release date : 1 December, 2023</p>
             <p>

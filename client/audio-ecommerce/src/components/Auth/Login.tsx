@@ -18,7 +18,7 @@ const Login = (props: any) => {
         message: "Please enter a valid email-address",
       })
       .min(1, { message: "Please enter your email" }),
-    password: z.string().min(1, { message: "Please enter your password" }),
+    password: z.string().min(1),
   });
 
   const {

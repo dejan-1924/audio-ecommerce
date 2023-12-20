@@ -34,13 +34,16 @@ export interface IShopContext {
   isLabelChecked: (id: number) => boolean;
   getNumberOfItemsInCart: () => number;
   numberOfItemsInCart: () => number;
+  hangleGetCartModal: () => boolean;
+  handleOpenCartModal: () => void;
+  handleCloseCartModal: () => void;
 }
 
 export const ShopContext = createContext<IShopContext | null>(null);
 
 export const ShopContextProvider = (props: any) => {
   const authCtx = useContext(AuthContext);
-
+  const [showCartModal, setShowCartModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [page, setPage] = useState(1);
   const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
@@ -230,6 +233,16 @@ export const ShopContextProvider = (props: any) => {
     return numberOfItems;
   };
 
+  const handleOpenCartModal = () => {
+    setShowCartModal(true);
+  };
+  const handleCloseCartModal = () => {
+    setShowCartModal(false);
+  };
+  const handleGetCartModal = () => {
+    return showCartModal;
+  };
+
   const contextValue: IShopContext = {
     handleSetSearchQuery,
     handleGetSearchQuery,
@@ -255,6 +268,9 @@ export const ShopContextProvider = (props: any) => {
     resetLabels,
     getNumberOfItemsInCart,
     numberOfItemsInCart,
+    handleCloseCartModal,
+    handleOpenCartModal,
+    handleGetCartModal,
   };
 
   return (

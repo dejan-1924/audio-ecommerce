@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useContext } from "react";
 import classes from "./styles/ProductCard.module.css";
 import Select from "react-select";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,9 @@ import {
   changeAmount,
 } from "../../slices/cartSlice";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ShopContext } from "../../store/shop-store";
 
 function createOptions(amount: number) {
   console.log(amount);
@@ -20,11 +23,54 @@ function createOptions(amount: number) {
 }
 
 const ProductCard = (props: any) => {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const removeFromCartHandler = () => {
-    dispatch(removeFromCart(props.product.id));
+  const shopCtx = useContext(ShopContext);
+
+  const handleRemoveItemFromCart = async (itemId: number) => {
+    const { data: response } = await axios.delete(
+      "https://localhost:7049/api/Cart/deleteItem/" + itemId,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    return response;
   };
+
+  const handleChangeItemAmountInCart = async (item: any) => {
+    const addToCartItem = { id: item.id, amount: item.amount, isReplace: true };
+
+    const { data: response } = await axios.post(
+      "https://localhost:7049/api/Cart/addItem",
+      addToCartItem,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    return response;
+  };
+
+  const { mutateAsync: removeItemMutation } = useMutation({
+    mutationFn: handleRemoveItemFromCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cartItems"]);
+      shopCtx?.getNumberOfItemsInCart();
+    },
+  });
+
+  const { mutateAsync: changeItemAmountMutation } = useMutation({
+    mutationFn: handleChangeItemAmountInCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cartItems"]);
+    },
+  });
 
   return (
     <>
@@ -59,9 +105,11 @@ const ProductCard = (props: any) => {
                   <p className={classes.product__price}>
                     {props.product.price * props.product.amount}€
                   </p>
-                  <div
-                    className={classes.product__amountprice}
-                  >{`(${props.product.amount} x  ${props.product.price}€)`}</div>
+                  {props.page !== "modal" && (
+                    <div className={classes.product__amountprice}>
+                      {`(${props.product.amount} x  ${props.product.price}€)`}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <p className={classes.productPrice}>{props.product.price}€</p>
@@ -106,18 +154,28 @@ const ProductCard = (props: any) => {
                         label: props.product.amount,
                       }}
                       options={createOptions(props.product.inStock)}
-                      onChange={(event: any) =>
-                        props.changeAmount({
-                          id: props.product.id,
-                          amount: event.value,
-                        })
-                      }
+                      onChange={async (event: any) => {
+                        try {
+                          await changeItemAmountMutation({
+                            id: props.product.id,
+                            amount: event.value,
+                          });
+                        } catch (e) {
+                          console.log(e);
+                        }
+                      }}
                     />
                   )}
 
                   <p
                     className={classes.remove__item}
-                    onClick={() => props.remove(props.product.id)}
+                    onClick={async () => {
+                      try {
+                        await removeItemMutation(props.product.id);
+                      } catch (e) {
+                        console.log(e);
+                      }
+                    }}
                   >
                     Remove item
                   </p>

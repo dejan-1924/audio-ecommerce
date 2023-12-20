@@ -10,10 +10,11 @@ import Register from "../../components/Auth/Register";
 import { AuthContext } from "../../store/auth-store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ShopContext } from "../../store/shop-store";
 const LoginPage = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-
+  const shopCtx = useContext(ShopContext);
   const handleRegister = async (values: any) => {
     try {
       const result = await axios.post(
@@ -57,6 +58,7 @@ const LoginPage = () => {
       });
       console.log(result.data);
       authCtx?.login(result.data.token);
+      shopCtx?.getNumberOfItemsInCart();
       toast.success("You are logged in!", {
         position: "top-center",
         autoClose: 5000,

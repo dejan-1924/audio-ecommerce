@@ -43,7 +43,7 @@ namespace audio_ecommerce.Controllers
 
         [HttpPost("addItem", Name = "AddItem")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<CartDTO> AddItem([FromBody] AddToCartItemDTO addToCartItem)
+        public ActionResult<bool> AddItem([FromBody] AddToCartItemDTO addToCartItem)
         {
 
             int id = 0;
@@ -54,7 +54,7 @@ namespace audio_ecommerce.Controllers
         }
         [HttpDelete("deleteItem/{productId}", Name = "DeleteItem")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<CartDTO> RemoveItemFromCart(int productId)
+        public ActionResult<bool> RemoveItemFromCart(int productId)
         {
 
             int id = 0;

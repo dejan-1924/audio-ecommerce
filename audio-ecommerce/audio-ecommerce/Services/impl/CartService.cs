@@ -20,7 +20,7 @@ namespace audio_ecommerce.Services.impl
         }
 
 
-        public CartDTO AddItemToCart(int productId, int quantity, bool isReplace, int userId)
+        public bool AddItemToCart(int productId, int quantity, bool isReplace, int userId)
         {
             int cartId = _unitOfWork.CartRepository.GetAll().Where(c => !c.IsDeleted).FirstOrDefault(c => c.UserId == userId).Id;
 
@@ -54,13 +54,27 @@ namespace audio_ecommerce.Services.impl
             }
 
 
+
             if (existingCartItem != null)
             {
+
                 if (!isReplace)
                 {
+                    if (existingCartItem.Quantity + quantity > product.Amount)
+                    {
+                        throw new NotFoundException("Selected amount is not available for this product.");
+                    }
                     existingCartItem.Quantity += quantity;
                 }
-                else { existingCartItem.Quantity = quantity; }
+                else
+                {
+                    if (quantity > product.Amount)
+                    {
+                        throw new NotFoundException("Selected amount is not available for this product.");
+                    }
+
+                    existingCartItem.Quantity = quantity;
+                }
 
             }
             else
@@ -94,13 +108,13 @@ namespace audio_ecommerce.Services.impl
             _unitOfWork.SaveChanges();
 
 
-            return GetCartDTO(cartId);
+            return true;
         }
 
 
 
 
-        public CartDTO RemoveItemFromCart(int productId, int userId)
+        public bool RemoveItemFromCart(int productId, int userId)
         {
             int cartId = _unitOfWork.CartRepository.GetAll().Where(c => !c.IsDeleted).FirstOrDefault(c => c.UserId == userId).Id;
 
@@ -119,29 +133,11 @@ namespace audio_ecommerce.Services.impl
 
             _unitOfWork.SaveChanges();
 
-            return GetCartDTO(cartId);
+            return true;
 
         }
 
 
-        private CartDTO GetCartDTO(int cartId)
-        {
-
-
-            var cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).ThenInclude(ci => ci.Product).FirstOrDefault(c => c.Id == cartId && !c.IsDeleted);
-
-            var CartItems = new List<CartItemDTO>();
-
-            foreach (var ci in cart.CartItems)
-            {
-                var product = _unitOfWork.ProductRepository.GetById(ci.ProductId, p => p.Artist);
-
-                CartItems.Add(new CartItemDTO(product.Id, product.Name, product.Artist.Name,
-                     ci.Quantity, product.Price, product.ImageUrl, product.Amount));
-            }
-
-            return new CartDTO(CartItems, cart.Total);
-        }
 
         public CartDTO GetCart(int userId)
         {
@@ -153,9 +149,19 @@ namespace audio_ecommerce.Services.impl
             {
                 var product = _unitOfWork.ProductRepository.GetById(cartItem.ProductId, p => p.Artist);
 
-                CartItems.Add(new CartItemDTO(product.Id, product.Name, product.Artist.Name,
-                     cartItem.Quantity, product.Price, product.ImageUrl, product.Amount));
+                if (product.Amount < cartItem.Quantity)
+                {
+                    cartItem.Quantity = product.Amount;
+                    CartItems.Add(new CartItemDTO(product.Id, product.Name, product.Artist.Name,
+                         product.Amount, product.Price, product.ImageUrl, product.Amount));
+                }
+                else
+                {
+                    CartItems.Add(new CartItemDTO(product.Id, product.Name, product.Artist.Name,
+                         cartItem.Quantity, product.Price, product.ImageUrl, product.Amount));
+                }
             }
+            _unitOfWork.SaveChanges();
 
             return new CartDTO(CartItems, cart.Total);
 

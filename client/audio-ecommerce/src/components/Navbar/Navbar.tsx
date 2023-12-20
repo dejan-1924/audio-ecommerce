@@ -13,6 +13,7 @@ import { AuthContext } from "../../store/auth-store";
 import { ShopContext } from "../../store/shop-store";
 import { useSelector } from "react-redux";
 import cartSlice from "../../slices/cartSlice";
+import CartModal from "../Cart/CartModal";
 
 const Navbar = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -22,18 +23,27 @@ const Navbar = () => {
     handleSetSearchQuery,
     handleResetPage,
     handleGetSearchQuery,
+    handleOpenCartModal,
+    handleCloseCartModal,
+    handleGetCartModal,
   } = useContext(ShopContext);
   const { toggleSearch, setToggleSearch } = useState(false);
   const queryRef = useRef();
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   const shopCtx = useContext(ShopContext);
+
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+
   const handleOpenSideMenu = () => {
     setIsSideMenuOpen(true);
   };
   const navigate = useNavigate();
   const closeSideMenuHandler = () => {
     setIsSideMenuOpen(false);
+  };
+  const closeCartModal = () => {
+    handleCloseCartModal();
   };
   const location = useLocation();
   const handleViewRecords = () => {
@@ -57,13 +67,15 @@ const Navbar = () => {
     navigate("/shop");
   };
 
+  let cm = handleGetCartModal();
+
   useEffect(() => {
-    if (isSideMenuOpen) {
+    if (isSideMenuOpen || cm) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [isSideMenuOpen]);
+  }, [isSideMenuOpen, cm]);
 
   return (
     <div className={classes.navbarContainer}>
@@ -72,6 +84,12 @@ const Navbar = () => {
       )}
       {isSideMenuOpen && (
         <Backdrop closeSideMenu={closeSideMenuHandler}></Backdrop>
+      )}
+      {handleGetCartModal() && (
+        <CartModal closeModal={closeCartModal}></CartModal>
+      )}
+      {handleGetCartModal() && (
+        <Backdrop closeSideMenu={closeCartModal}></Backdrop>
       )}
       <div className={classes.navbar}>
         <div className={classes.navbar__left}>
@@ -105,14 +123,22 @@ const Navbar = () => {
             </Link>
           )}
 
-          <Link to="/cart" className={classes.navbar__item}>
+          <div
+            className={classes.navbar__item}
+            onClick={() => {
+              if (location.pathname == "/cart") {
+              } else {
+                handleOpenCartModal();
+              }
+            }}
+          >
             <Badge
               badgeContent={shopCtx?.numberOfItemsInCart()}
               color="primary"
             >
               <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
-          </Link>
+          </div>
         </div>
       </div>
     </div>
