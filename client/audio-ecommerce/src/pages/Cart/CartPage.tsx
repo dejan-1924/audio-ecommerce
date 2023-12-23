@@ -9,6 +9,7 @@ import { clearCartItems, resetCart } from "../../slices/cartSlice";
 import { toast } from "react-toastify";
 import { ShopContext } from "../../store/shop-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchCart } from "../../hooks/productHooks";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -21,67 +22,51 @@ const CartPage = () => {
   const queryClient = useQueryClient();
   const authCtx = useContext(AuthContext);
 
-  const fetchCart = async () => {
-    const { data: response } = await axios.get(
-      "https://localhost:7049/api/Cart",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-
-    return response;
-  };
-
   const { data, isLoading } = useQuery({
     queryFn: () => fetchCart(),
     queryKey: ["cartItems"],
   });
 
-  const handleOrder = async () => {
+  const handleOrder = () => {
     let cart: any = [];
-    const jwt: any = token();
     cartItems.map((item: any) => {
       cart.push({ id: item.id, amount: item.amount });
     });
 
-    console.log(jwt);
-    try {
-      const result = await axios.post(
-        "https://localhost:7049/api/Order/create",
-        cart,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + jwt,
-          },
-        }
-      );
-      toast.success("You have successfully placed an order!", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    const token = console.log(localStorage.getItem("token"));
+
+    const URL = "https://localhost:7049/api/Order/create";
+    const headers = {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    };
+    fetch(URL, { method: "POST", headers })
+      .then((response) => {})
+      .then((data) => {
+        toast.success("You have successfully placed an order!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        shopCtx?.getNumberOfItemsInCart();
+        navigate("/profile/orders");
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
-      dispatch(clearCartItems());
-    } catch (error) {
-      toast.error(error.response.data.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
   };
 
   return (

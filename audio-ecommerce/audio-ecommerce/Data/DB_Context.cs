@@ -46,6 +46,23 @@ namespace audio_ecommerce.Data
                         IsDeleted = false
 
                     });
+                user.HasData(
+                    new
+                    {
+                        Id = 100,
+                        Name = "Dejan",
+                        Surname = "Barcal",
+                        Email = "barcaldejan@gmail.com",
+                        Password = PasswordHasher.HashPassword("123", out salt),
+                        Role = "ADMIN",
+                        Salt = salt,
+                        BirthDate = DateTime.Now,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false
+
+                    });
+
             });
             #endregion
             #region DUMMY ADDRESS
@@ -391,6 +408,18 @@ namespace audio_ecommerce.Data
                         IsDeleted = false
 
                     });
+                cart.HasData(
+                new
+                {
+                    Id = 2,
+                    UserId = 100,
+                    Total = 0.00,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    IsDeleted = false
+
+                });
+
             });
             #endregion
 

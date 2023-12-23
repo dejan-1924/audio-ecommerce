@@ -211,7 +211,6 @@ export const ShopContextProvider = (props: any) => {
   }, [numberOfItems]);
 
   const getNumberOfItemsInCart = async () => {
-    console.log("probaj");
     try {
       const { data: response } = await axios.get(
         "https://localhost:7049/api/Cart/numberOfItems",

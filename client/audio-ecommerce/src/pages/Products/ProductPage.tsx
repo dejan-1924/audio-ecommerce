@@ -1,14 +1,17 @@
 import React, { useContext, useState } from "react";
 import classes from "./styles/ProductPage.module.css";
 import { useNavigate, useParams } from "react-router";
-import { useGetProductByIdQuery } from "../../hooks/productHooks";
+import {
+  handleAddItemToCart,
+  useGetProductByIdQuery,
+} from "../../hooks/productHooks";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import axios from "axios";
 import { ShopContext } from "../../store/shop-store";
 import { CircularProgress } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ProductPage = () => {
   const params = useParams();
@@ -21,28 +24,14 @@ const ProductPage = () => {
   const shopCtx = useContext(ShopContext);
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const handleAddItemToCart = async (productId: number) => {
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        "https://localhost:7049/api/Cart/addItem",
-        { id: productId, amount: 1, isReplace: false },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
 
+  const { mutateAsync: addItemToCartMutation, isPending } = useMutation({
+    mutationFn: handleAddItemToCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cartItems"]);
       shopCtx?.getNumberOfItemsInCart();
-
-      shopCtx?.handleOpenCartModal();
-    } catch (error) {
-      console.error(error.response.data.message);
-    }
-    setLoading(false);
-  };
+    },
+  });
 
   return (
     <>
@@ -69,7 +58,7 @@ const ProductPage = () => {
               <p>Only {product.inStock} left in stock</p>
             )}
             <div className={classes.product__actions}>
-              {loading ? (
+              {isPending ? (
                 <button className={classes.product__cartbutton}>
                   <CircularProgress size="1rem" style={{ color: "white" }} />
                 </button>
@@ -81,8 +70,13 @@ const ProductPage = () => {
                       : classes.product__cartbutton_disabled
                   }
                   disabled={!(product.inStock > 0)}
-                  onClick={() => {
-                    handleAddItemToCart(product.id);
+                  onClick={async () => {
+                    try {
+                      await addItemToCartMutation(product.id);
+                    } catch (e) {
+                      890;
+                      console.log(e);
+                    }
                   }}
                 >
                   Add to cart

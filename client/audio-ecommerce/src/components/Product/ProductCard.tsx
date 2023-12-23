@@ -8,9 +8,13 @@ import {
   changeAmount,
 } from "../../slices/cartSlice";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ShopContext } from "../../store/shop-store";
+import {
+  handleChangeItemAmountInCart,
+  handleRemoveFromCart,
+} from "../../hooks/productHooks";
+import axios from "axios";
 
 function createOptions(amount: number) {
   console.log(amount);
@@ -28,37 +32,8 @@ const ProductCard = (props: any) => {
   const navigate = useNavigate();
   const shopCtx = useContext(ShopContext);
 
-  const handleRemoveItemFromCart = async (itemId: number) => {
-    const { data: response } = await axios.delete(
-      "https://localhost:7049/api/Cart/deleteItem/" + itemId,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    return response;
-  };
-
-  const handleChangeItemAmountInCart = async (item: any) => {
-    const addToCartItem = { id: item.id, amount: item.amount, isReplace: true };
-
-    const { data: response } = await axios.post(
-      "https://localhost:7049/api/Cart/addItem",
-      addToCartItem,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    return response;
-  };
-
   const { mutateAsync: removeItemMutation } = useMutation({
-    mutationFn: handleRemoveItemFromCart,
+    mutationFn: handleRemoveFromCart,
     onSuccess: () => {
       queryClient.invalidateQueries(["cartItems"]);
       shopCtx?.getNumberOfItemsInCart();
@@ -190,3 +165,6 @@ const ProductCard = (props: any) => {
 };
 
 export default ProductCard;
+function handleRemoveItemFromCart(variables: void): Promise<unknown> {
+  throw new Error("Function not implemented.");
+}

@@ -27,9 +27,10 @@ namespace audio_ecommerce.Repositories
 
         public void Delete(T entity)
         {
+            Console.WriteLine(entity.Id);
             entity.ModifiedDate = DateTime.UtcNow;
             entity.IsDeleted = true;
-            _dbContext.Set<T>().Update(entity);
+            Update(entity);
 
         }
 

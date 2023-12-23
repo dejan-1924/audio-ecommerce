@@ -1,8 +1,8 @@
 ﻿using audio_ecommerce.Models;
-using audio_ecommerce.Models.DTOs.Product;
 using audio_ecommerce.Repositories;
 using audio_ecommerce.SupportClasses.JWT;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace audio_ecommerce.Services.impl
 {
@@ -22,11 +22,16 @@ namespace audio_ecommerce.Services.impl
         }
 
 
-        public int Create(List<ProductCartDTO> items, int id)
+        public int Create(int userId)
         {
 
 
-            User user = _unitOfWork.UserRepository.GetById(id);
+            User user = _unitOfWork.UserRepository.GetById(userId);
+
+            Cart cart = _unitOfWork.CartRepository.GetAll().Include(c => c.CartItems).Where(c => !c.IsDeleted).FirstOrDefault(c => c.UserId == userId);
+
+
+
             var order = new Order
             {
                 OrderDate = DateTime.Now,
@@ -35,18 +40,18 @@ namespace audio_ecommerce.Services.impl
             };
 
 
-            foreach (var item in items)
+            foreach (var item in cart.CartItems)
             {
 
-                Product product = _unitOfWork.ProductRepository.GetById(item.Id, a => a.Artist);
+                Product product = _unitOfWork.ProductRepository.GetById(item.ProductId, a => a.Artist);
 
-                if (item.Amount <= _unitOfWork.ProductRepository.GetById(item.Id).Amount)
+                if (item.Quantity <= product.Amount)
                 {
 
                     var orderItem = new OrderItem
                     {
                         Product = product,
-                        Quantity = item.Amount,
+                        Quantity = item.Quantity,
 
                     };
 
@@ -67,6 +72,12 @@ namespace audio_ecommerce.Services.impl
                 Product product = _unitOfWork.ProductRepository.GetById(orderItem.ProductId);
                 product.Amount = product.Amount - orderItem.Quantity;
             }
+
+            _unitOfWork.CartRepository.Delete(cart);
+
+            Cart newCart = new Cart(user);
+
+            _unitOfWork.CartRepository.Create(newCart);
 
 
             _unitOfWork.SaveChanges();

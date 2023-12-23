@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using audio_ecommerce.Data;
 
@@ -11,9 +12,11 @@ using audio_ecommerce.Data;
 namespace audioecommerce.Migrations
 {
     [DbContext(typeof(DB_Context))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20231222164710_DUMMY_CART_2")]
+    partial class DUMMYCART2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

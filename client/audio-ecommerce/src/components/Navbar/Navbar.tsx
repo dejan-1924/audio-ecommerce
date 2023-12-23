@@ -1,39 +1,36 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import classes from "./styles/Navbar.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Badge, autocompleteClasses } from "@mui/material";
+import { Badge } from "@mui/material";
 import SideMenu from "../SideMenu/SideMenu";
 import Backdrop from "../SideMenu/Backdrop";
 import { AuthContext } from "../../store/auth-store";
 import { ShopContext } from "../../store/shop-store";
 import { useSelector } from "react-redux";
-import cartSlice from "../../slices/cartSlice";
+
 import CartModal from "../Cart/CartModal";
 
 const Navbar = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+
   const authCtx = useContext(AuthContext);
   const {
     resetFilters,
     handleSetSearchQuery,
     handleResetPage,
-    handleGetSearchQuery,
     handleOpenCartModal,
     handleCloseCartModal,
     handleGetCartModal,
   } = useContext(ShopContext);
-  const { toggleSearch, setToggleSearch } = useState(false);
+  const [toggleSearch, setToggleSearch] = useState(false);
   const queryRef = useRef();
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   const shopCtx = useContext(ShopContext);
-
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
 
   const handleOpenSideMenu = () => {
     setIsSideMenuOpen(true);
@@ -67,29 +64,29 @@ const Navbar = () => {
     navigate("/shop");
   };
 
-  let cm = handleGetCartModal();
+  let isCartModalOpen = handleGetCartModal();
 
   useEffect(() => {
-    if (isSideMenuOpen || cm) {
+    if (isSideMenuOpen || isCartModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [isSideMenuOpen, cm]);
+  }, [isSideMenuOpen, isCartModalOpen]);
 
   return (
     <div className={classes.navbarContainer}>
       {isSideMenuOpen && (
-        <SideMenu closeModal={closeSideMenuHandler}></SideMenu>
-      )}
-      {isSideMenuOpen && (
-        <Backdrop closeSideMenu={closeSideMenuHandler}></Backdrop>
-      )}
-      {handleGetCartModal() && (
-        <CartModal closeModal={closeCartModal}></CartModal>
+        <>
+          <SideMenu closeModal={closeSideMenuHandler}></SideMenu>
+          <Backdrop closeSideMenu={closeSideMenuHandler}></Backdrop>
+        </>
       )}
       {handleGetCartModal() && (
-        <Backdrop closeSideMenu={closeCartModal}></Backdrop>
+        <>
+          <CartModal closeModal={closeCartModal}></CartModal>
+          <Backdrop closeSideMenu={closeCartModal}></Backdrop>
+        </>
       )}
       <div className={classes.navbar}>
         <div className={classes.navbar__left}>

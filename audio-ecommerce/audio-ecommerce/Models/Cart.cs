@@ -23,5 +23,14 @@ namespace audio_ecommerce.Models
         public bool IsDeleted { get; set; }
         public double Total { get; set; }
 
+        public Cart()
+        {
+        }
+
+        public Cart(User user)
+        {
+            User = user;
+            Total = 0.0;
+        }
     }
 }
